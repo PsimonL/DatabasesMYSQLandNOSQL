@@ -1,1 +1,1 @@
-# Simple-DataBase-in-PyCharm
+# SQL and noSQL mini projects

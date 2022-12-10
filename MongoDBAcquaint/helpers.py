@@ -5,9 +5,9 @@ import re
 
 def get_json():
     with open('data.json') as file:
-        file_data = json.load(file)
-    print(file_data)
-    return file_data
+        jsonFile = json.load(file)
+    print(jsonFile)
+    return jsonFile
 
 
 def get_MAC():

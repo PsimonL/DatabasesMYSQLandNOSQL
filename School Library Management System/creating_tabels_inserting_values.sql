@@ -2,10 +2,10 @@
 -- TABLE STUDENTS
 CREATE TABLE students(
   id_student int PRIMARY KEY,
-  full_name varchar(255),
+  full_name char(50),
   student_card_id int,
-  email varchar(255),
-  phone varchar(255)
+  email char(70),
+  phone char(15)
 );
 
 INSERT INTO students VALUES (0, 'Jack Sparrow', 000);
@@ -19,12 +19,12 @@ SELECT * FROM students;
 -- TABLE BOOKS
 CREATE TABLE books(
   id_book int PRIMARY KEY,
-  title varchar(255),
+  title char(150),
   id_author int,
   isbn int,
   for_adults boolean,
-  publication_year varchar(255),
-  book_topic varchar(255)
+  publication_year int,
+  book_topic varchar(1000)
 );
 
 INSERT INTO books VALUES (0, 'Jack Sparrow', 000);
@@ -38,8 +38,8 @@ SELECT * FROM books;
 -- TABLE AUTHORS
 CREATE TABLE authors(
   id_author int PRIMARY KEY,
-  first_name varchar(255),
-  last_name varchar(255)
+  first_name char(10),
+  last_name char(10)
 );
 
 INSERT INTO authors VALUES (0, 'Jack Sparrow', 000);
@@ -53,8 +53,8 @@ SELECT * FROM authors;
 -- TABLE RENTALS
 CREATE TABLE rentals(
   id_rental int PRIMARY KEY,
-  id_student varchar(255),
-  id_employee varchar(255)
+  id_student int,
+  id_employee int
 );
 
 INSERT INTO rentals VALUES (1, 'Elizabeth Swann', 111);
@@ -68,10 +68,10 @@ SELECT * FROM rentals;
 -- TABLE RENTALS
 CREATE TABLE completion_date(
   id_rental int PRIMARY KEY,
-  id_student varchar(255),
-  id_employee varchar(255),
-  rental_date varchar(255),
-  return_date varchar(255)
+  id_student int,
+  id_employee int,
+  rental_date date,
+  return_date date
 );
 
 INSERT INTO completion_date VALUES (1, 'Elizabeth Swann', 111);
@@ -85,10 +85,10 @@ SELECT * FROM completion_date;
 -- TABLE STUDENTS
 CREATE TABLE students(
   id_student int PRIMARY KEY,
-  full_name varchar(255),
+  full_name char(50),
   student_card_id int,
-  email varchar(255),
-  phone varchar(255)
+  email char(70),
+  phone int
 );
 
 INSERT INTO students VALUES (0, 'Jack Sparrow', 000);
@@ -102,10 +102,10 @@ SELECT * FROM students;
 -- TABLE STUDENTS
 CREATE TABLE employees(
   id_employee int PRIMARY KEY,
-  full_name varchar(255),
+  full_name char(50),
   employee_card_id int,
-  email varchar(255),
-  phone varchar(255)
+  email char(70),
+  phone int
 );
 
 INSERT INTO employees VALUES (0, 'Jack Sparrow', 000);

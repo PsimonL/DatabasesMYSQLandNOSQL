@@ -1,11 +1,13 @@
 -- #########################################################################
 -- TABLE STUDENTS
 CREATE TABLE students(
-  id_student int PRIMARY KEY,
+  id_student int NOT NULL,
   full_name char(50),
   student_card_id int,
   email char(70),
-  phone char(15)
+  phone char(15),
+
+  PRIMARY KEY (id_student)
 );
 
 INSERT INTO students VALUES (0, 'Jack Sparrow', 000);
@@ -18,13 +20,16 @@ SELECT * FROM students;
 -- #########################################################################
 -- TABLE BOOKS
 CREATE TABLE books(
-  id_book int PRIMARY KEY,
+  id_book int NOT NULL,
   title char(150),
-  id_author int,
+  id_author int ,
   isbn int,
   for_adults boolean,
   publication_year int,
-  book_topic varchar(1000)
+  book_topic varchar(1000),
+
+  PRIMARY KEY (id_book),
+  FOREIGN KEY (id_author)
 );
 
 INSERT INTO books VALUES (0, 'Jack Sparrow', 000);
@@ -37,9 +42,11 @@ SELECT * FROM books;
 -- #########################################################################
 -- TABLE AUTHORS
 CREATE TABLE authors(
-  id_author int PRIMARY KEY,
+  id_author int NOT NULL,
   first_name char(10),
-  last_name char(10)
+  last_name char(10),
+
+  PRIMARY KEY (id_author)
 );
 
 INSERT INTO authors VALUES (0, 'Jack Sparrow', 000);
@@ -54,7 +61,10 @@ SELECT * FROM authors;
 CREATE TABLE rentals(
   id_rental int PRIMARY KEY,
   id_student int,
-  id_employee int
+  id_employee int,
+
+  PRIMARY KEY (id_rental),
+  FOREIG KEY
 );
 
 INSERT INTO rentals VALUES (1, 'Elizabeth Swann', 111);

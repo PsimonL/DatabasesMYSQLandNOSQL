@@ -1,7 +1,7 @@
 -- #########################################################################
 -- TABLE STUDENTS
 CREATE TABLE students(
-  id_student int NOT NULL,
+  id_student SERIAL,
   full_name char(50),
   student_card_id int,
   email char(70),
@@ -20,7 +20,7 @@ SELECT * FROM students;
 -- #########################################################################
 -- TABLE BOOKS
 CREATE TABLE books(
-  id_book int NOT NULL,
+  id_book SERIAL,
   title char(150),
   id_author int ,
   isbn int,
@@ -29,7 +29,7 @@ CREATE TABLE books(
   book_topic varchar(1000),
 
   PRIMARY KEY (id_book),
-  FOREIGN KEY (id_author)
+  FOREIGN KEY (id_author) REFERENCES authors(id_author)
 );
 
 INSERT INTO books VALUES (0, 'Jack Sparrow', 000);
@@ -42,7 +42,7 @@ SELECT * FROM books;
 -- #########################################################################
 -- TABLE AUTHORS
 CREATE TABLE authors(
-  id_author int NOT NULL,
+  id_author SERIAL,
   first_name char(10),
   last_name char(10),
 
@@ -59,12 +59,13 @@ SELECT * FROM authors;
 -- #########################################################################
 -- TABLE RENTALS
 CREATE TABLE rentals(
-  id_rental int PRIMARY KEY,
-  id_student int,
-  id_employee int,
+  id_rental SERIAL,
+  id_student int NOT NULL,
+  id_employee int NOT NULL ,
 
   PRIMARY KEY (id_rental),
-  FOREIG KEY
+  FOREIGN KEY (id_student) REFERENCES students(id_student),
+  FOREIGN KEY (id_employee) REFERENCES employees(id_employee)
 );
 
 INSERT INTO rentals VALUES (1, 'Elizabeth Swann', 111);
@@ -77,11 +78,17 @@ SELECT * FROM rentals;
 -- #########################################################################
 -- TABLE RENTALS
 CREATE TABLE completion_date(
-  id_rental int PRIMARY KEY,
-  id_student int,
-  id_employee int,
+  id_completion SERIAL,
+  id_rental int NOT NULL,
+  id_student int NOT NULL,
+  id_employee int NOT NULL,
   rental_date date,
-  return_date date
+  return_date date,
+
+  PRIMARY KEY (id_completion),
+  FOREIGN KEY (id_rental) REFERENCES rentals(id_rental),
+  FOREIGN KEY (id_student) REFERENCES students(id_student),
+  FOREIGN KEY (id_employee) REFERENCES employees(id_employee)
 );
 
 INSERT INTO completion_date VALUES (1, 'Elizabeth Swann', 111);
@@ -93,29 +100,14 @@ SELECT * FROM completion_date;
 
 -- #########################################################################
 -- TABLE STUDENTS
-CREATE TABLE students(
-  id_student int PRIMARY KEY,
-  full_name char(50),
-  student_card_id int,
-  email char(70),
-  phone int
-);
-
-INSERT INTO students VALUES (0, 'Jack Sparrow', 000);
-
-SELECT * FROM students;
--- DROP TABLE students;
--- #########################################################################
-
-
--- #########################################################################
--- TABLE STUDENTS
 CREATE TABLE employees(
-  id_employee int PRIMARY KEY,
+  id_employee SERIAL,
   full_name char(50),
   employee_card_id int,
   email char(70),
-  phone int
+  phone int,
+
+  PRIMARY KEY (id_employee)
 );
 
 INSERT INTO employees VALUES (0, 'Jack Sparrow', 000);

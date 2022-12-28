@@ -91,35 +91,30 @@ CREATE OR REPLACE PROCEDURE insert_vals_rentals(
 LANGUAGE plpgsql
 AS $procedure$
     BEGIN
-INSERT INTO rentals VALUES (default, (Select id_student From students Where first_name = first_name_student And last_name = last_name_student),
-                            (Select id_employee From employees Where first_name = first_name_employee And last_name = last_name_employee));
+        INSERT INTO rentals VALUES (default, (Select id_student From students Where first_name = first_name_student And last_name = last_name_student),
+                                    (Select id_employee From employees Where first_name = first_name_employee And last_name = last_name_employee));
     END
 $procedure$;
 
 CALL insert_vals_rentals();
 
 -- adding records to COMPLETION_DATE table
-CREATE OR REPLACE PROCEDURE insert_vals_completionDate(
-  first_name_student varchar(20),
-  first_name_employee varchar(20),
-  last_name_student varchar(20),
-  last_name_employee varchar(20),
-
-  id_rental int NOT NULL,
-  id_student int NOT NULL,
-  id_employee int NOT NULL,
-  rental_date timestamp DEFAULT now(),
-  return_date date,
-  )
+-- TO FIX
+CREATE OR REPLACE FUNCTION trigger_function_completion_date()
+RETURNS TRIGGER
 LANGUAGE plpgsql
-AS $procedure$
+AS $trigger$
     BEGIN
-INSERT INTO rentals VALUES (default, (Select id_rental From rentals Where ???),
-                                    (Select id_student From students Where full_name = 'Jack Sparrow'),
-                                    (Select id_employee From employees Where full_name = 'Grace Augustine'),
-                                    );
+        INSERT INTO completion_date VALUES (default, 1, 'Szymon Rogowski', 111222333, 'szymon_rogowski@gmail.com');
+        RETURN NEW;
     END
-$procedure$;
+$trigger$;
+
+CREATE TRIGGER trigger_completion_date
+   AFTER INSERT
+   ON rentals
+   FOR EACH ROW
+       EXECUTE PROCEDURE trigger_function_completion_date();
 
 INSERT INTO completion_date VALUES (default, (Select id_rental From rentals Where ???),
                                     (Select id_student From students Where full_name = 'Jack Sparrow'),

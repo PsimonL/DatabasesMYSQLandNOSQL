@@ -63,7 +63,7 @@ CREATE TABLE contacts(
 	  REFERENCES customers(customer_id)
 );
 
-CREATE OR REPLACE FUNCTION trigger_function()
+CREATE OR REPLACE FUNCTION trigger_function_contacts()
 RETURNS TRIGGER
 LANGUAGE plpgsql
 AS $trigger$
@@ -73,13 +73,31 @@ AS $trigger$
     END
 $trigger$;
 
-CREATE TRIGGER trigger_name
+CREATE TRIGGER trigger_contacts
    AFTER INSERT
    ON customers
    FOR EACH ROW
-       EXECUTE PROCEDURE trigger_function();
+       EXECUTE PROCEDURE trigger_function_contacts();
+-- INSERT INTO customers VALUES(default, 'Szymon', 'Rogowski', 'szymon_rogowski@gmail.com');
 
-INSERT INTO customers VALUES(default, 'Szymon', 'Rogowski', 'szymon_rogowski@gmail.com');
+CREATE OR REPLACE PROCEDURE insert_vals_customers(
+  customer_first_name VARCHAR(255),
+     customer_last_name VARCHAR(255))
+LANGUAGE plpgsql
+AS $procedure$
+    BEGIN
+        if customer_last_name LIKE 'Rogowski' then
+            INSERT INTO customers VALUES (default, customer_first_name, customer_last_name, (Select concat(lower(customer_first_name), '_', lower(customer_last_name), '@gmail.com')));
+        elsif customer_last_name LIKE 'HDASD' then
+            raise notice 'Sth.';
+        else
+		    raise notice 'Domain not found.';
+		end if;
+	raise notice 'Last %, first %.', customer_last_name, customer_first_name;
+    END
+$procedure$;
+
+CALL insert_vals_customers('Szymon', 'Rogowski');
 
 SELECT * FROM customers;
 SELECT * FROM contacts;

@@ -1,9 +1,11 @@
 -- #########################################################################
 -- 1
 -- TABLE STUDENTS
+DROP TABLE IF EXISTS students;
 CREATE TABLE  IF NOT EXISTS  students(
   id_student int GENERATED ALWAYS AS IDENTITY,
-  full_name char(50),
+  first_name char (20),
+  last_name char (25),
   student_card_id int UNIQUE,
   email char(70),
   phone int,
@@ -16,6 +18,7 @@ CREATE TABLE  IF NOT EXISTS  students(
 -- #########################################################################
 -- 2
 -- TABLE STUDENTS
+DROP TABLE IF EXISTS employees;
 CREATE TABLE  IF NOT EXISTS  employees(
   id_employee int GENERATED ALWAYS AS IDENTITY,
   full_name char(50),
@@ -31,6 +34,7 @@ CREATE TABLE  IF NOT EXISTS  employees(
 -- #########################################################################
 -- 3
 -- TABLE AUTHORS
+DROP TABLE IF EXISTS authors;
 CREATE TABLE  IF NOT EXISTS  authors(
   id_author int GENERATED ALWAYS AS IDENTITY,
   first_name char(10),
@@ -44,6 +48,7 @@ CREATE TABLE  IF NOT EXISTS  authors(
 -- #########################################################################
 -- 4
 -- TABLE BOOKS
+DROP TABLE IF EXISTS books;
 CREATE TABLE  IF NOT EXISTS  books(
   id_book int GENERATED ALWAYS AS IDENTITY,
   title varchar(150),
@@ -64,6 +69,7 @@ CREATE TABLE  IF NOT EXISTS  books(
 -- #########################################################################
 -- 5
 -- TABLE RENTALS
+DROP TABLE IF EXISTS rentals;
 CREATE TABLE  IF NOT EXISTS  rentals(
   id_rental int GENERATED ALWAYS AS IDENTITY,
   id_student int NOT NULL,
@@ -83,6 +89,7 @@ CREATE TABLE  IF NOT EXISTS  rentals(
 -- #########################################################################
 -- 6
 -- TABLE RENTALS
+DROP TABLE IF EXISTS completion_date;
 CREATE TABLE  IF NOT EXISTS  completion_date(
   id_completion int GENERATED ALWAYS AS IDENTITY,
   id_rental int NOT NULL,

@@ -48,10 +48,10 @@ CREATE TABLE  IF NOT EXISTS  books(
   id_book int GENERATED ALWAYS AS IDENTITY,
   title varchar(150),
   id_author int NOT NULL,
-  isbn int UNIQUE,
+  isbn char(20) UNIQUE,
   for_adults boolean,
   publication_year int,
-  book_topic varchar(1000),
+  genre varchar(100),
 
   PRIMARY KEY (id_book),
   CONSTRAINT fk_id_author

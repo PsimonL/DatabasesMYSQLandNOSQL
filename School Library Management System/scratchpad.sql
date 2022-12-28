@@ -1,34 +1,32 @@
-CREATE TABLE customers(
-   customer_id INT GENERATED ALWAYS AS IDENTITY,
-   customer_first_name VARCHAR(255) NOT NULL,
-   customer_last_name VARCHAR(255) NOT NULL,
-   email VARCHAR(255) NOT NULL,
-   PRIMARY KEY(customer_id)
-);
-DROP TABLE customers CASCADE;
-
-CREATE OR REPLACE PROCEDURE insert_vals_customers(
-  customer_first_name VARCHAR(255),
-     customer_last_name VARCHAR(255))
-LANGUAGE plpgsql
-AS $procedure$
-    BEGIN
-        if customer_last_name LIKE 'ABCD' then
-            INSERT INTO customers VALUES (default, customer_first_name, customer_last_name, (Select concat(lower(customer_first_name), '_', lower(customer_last_name), '@gmail.com')));
-    --                 INSERT INTO customers VALUES (default, (Select split_part(customers.customer_name, ' ', 1) AS first_name,
-    --                                                 split_part(customers.customer_name, ' ', 2) AS second_name From customers));
-        elsif customer_last_name LIKE 'HDASD' then
-            raise notice 'Sth.';
-        else
-		    raise notice 'Domain not found.';
-		end if;
-	raise notice 'Last %, first %.', customer_last_name, customer_first_name;
-    END
-$procedure$;
-
-CALL insert_vals_customers('Szymon', 'Rogowski');
-
-SELECT * FROM customers;
+-- CREATE TABLE customers(
+--    customer_id INT GENERATED ALWAYS AS IDENTITY,
+--    customer_first_name VARCHAR(255) NOT NULL,
+--    customer_last_name VARCHAR(255) NOT NULL,
+--    email VARCHAR(255) NOT NULL,
+--    PRIMARY KEY(customer_id)
+-- );
+-- DROP TABLE customers CASCADE;
+--
+-- CREATE OR REPLACE PROCEDURE insert_vals_customers(
+--   customer_first_name VARCHAR(255),
+--      customer_last_name VARCHAR(255))
+-- LANGUAGE plpgsql
+-- AS $procedure$
+--     BEGIN
+--         if customer_last_name LIKE 'Rogowski' then
+--             INSERT INTO customers VALUES (default, customer_first_name, customer_last_name, (Select concat(lower(customer_first_name), '_', lower(customer_last_name), '@gmail.com')));
+--         elsif customer_last_name LIKE 'HDASD' then
+--             raise notice 'Sth.';
+--         else
+-- 		    raise notice 'Domain not found.';
+-- 		end if;
+-- 	raise notice 'Last %, first %.', customer_last_name, customer_first_name;
+--     END
+-- $procedure$;
+--
+-- CALL insert_vals_customers('Szymon', 'Rogowski');
+--
+-- SELECT * FROM customers;
 
 -- CREATE VIEW some_view AS
 -- SELECT split_part(lower(customer_first_name), ' ', 1) AS first_name
@@ -43,6 +41,13 @@ SELECT * FROM customers;
 -- -- DROP VIEW some_view;
 
 
+CREATE TABLE customers(
+   customer_id INT GENERATED ALWAYS AS IDENTITY,
+   customer_first_name VARCHAR(255) NOT NULL,
+   customer_last_name VARCHAR(255) NOT NULL,
+   email VARCHAR(255) NOT NULL,
+   PRIMARY KEY(customer_id)
+);
 
 
 CREATE TABLE contacts(
@@ -58,8 +63,23 @@ CREATE TABLE contacts(
 	  REFERENCES customers(customer_id)
 );
 
-INSERT INTO contacts VALUES (default, (select customer_id from customers where customer_first_name = 'aaa'), 'ddd', '112233', 'mail1@gmail.com');
-INSERT INTO contacts VALUES (default, (select customer_id from customers where customer_first_name = 'bbb'), 'eee', '445566', 'mail2@gmail.com');
-INSERT INTO contacts VALUES (default, (select customer_id from customers where customer_first_name = 'ccc'), 'fff', '778899', 'mail3@gmail.com');
+CREATE OR REPLACE FUNCTION trigger_function()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+AS $trigger$
+    BEGIN
+        INSERT INTO contacts VALUES (default, 1, 'Szymon Rogowski', 111222333, 'szymon_rogowski@gmail.com');
+        RETURN NEW;
+    END
+$trigger$;
 
+CREATE TRIGGER trigger_name
+   AFTER INSERT
+   ON customers
+   FOR EACH ROW
+       EXECUTE PROCEDURE trigger_function();
+
+INSERT INTO customers VALUES(default, 'Szymon', 'Rogowski', 'szymon_rogowski@gmail.com');
+
+SELECT * FROM customers;
 SELECT * FROM contacts;

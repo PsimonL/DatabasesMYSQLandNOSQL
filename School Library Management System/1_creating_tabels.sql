@@ -21,10 +21,11 @@ CREATE TABLE  IF NOT EXISTS  students(
 DROP TABLE IF EXISTS employees;
 CREATE TABLE  IF NOT EXISTS  employees(
   id_employee int GENERATED ALWAYS AS IDENTITY,
-  full_name char(50),
+  first_name varchar(20) UNIQUE,
+  last_name varchar(20) UNIQUE,
   employee_card_id int UNIQUE,
   email char(70),
-  phone int,
+  phone int CHECK (length(max(phone)::char) = 9), -- phone number greater must contain 9 digits
 
   PRIMARY KEY (id_employee)
 );

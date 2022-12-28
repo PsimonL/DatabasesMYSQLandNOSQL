@@ -1,10 +1,3 @@
--- Triggers for automat insertion of foreign keys into data records.
--- https://stackoverflow.com/questions/72418730/how-to-automaticaly-fill-a-foreign-key-when-a-row-is-inserted-in-postgresql
--- ##########################################################################################################################
--- ##########################################################################################################################
--- ##########################################################################################################################
-
-
 -- #########################################################################
 -- adding records to STUDENTS table
 CREATE OR REPLACE PROCEDURE insert_vals_students(
@@ -89,11 +82,46 @@ CALL insert_vals_books ('Macbeth', 'Shakespeare', '222-000-999-888', false,
     1623, 'tragedy');
 
 -- adding records to RENTALS table
-INSERT INTO rentals VALUES (default, (Select id_student From students Where full_name = 'Jack Sparrow'),
-                            (Select id_employee From employees Where full_name = 'Grace Augustine'));
+CREATE OR REPLACE PROCEDURE insert_vals_rentals(
+  first_name_student varchar(20),
+  first_name_employee varchar(20),
+  last_name_student varchar(20),
+  last_name_employee varchar(20)
+  )
+LANGUAGE plpgsql
+AS $procedure$
+    BEGIN
+INSERT INTO rentals VALUES (default, (Select id_student From students Where first_name = first_name_student And last_name = last_name_student),
+                            (Select id_employee From employees Where first_name = first_name_employee And last_name = last_name_employee));
+    END
+$procedure$;
+
+CALL insert_vals_rentals();
 
 -- adding records to COMPLETION_DATE table
--- INSERT INTO completion_date VALUES (default, (Select id_rental From rentals Where ???),
---                                     (Select id_student From students Where full_name = 'Jack Sparrow'),
---                                     (Select id_employee From employees Where full_name = 'Grace Augustine'),
---                                     );
+CREATE OR REPLACE PROCEDURE insert_vals_completionDate(
+  first_name_student varchar(20),
+  first_name_employee varchar(20),
+  last_name_student varchar(20),
+  last_name_employee varchar(20),
+
+  id_rental int NOT NULL,
+  id_student int NOT NULL,
+  id_employee int NOT NULL,
+  rental_date timestamp DEFAULT now(),
+  return_date date,
+  )
+LANGUAGE plpgsql
+AS $procedure$
+    BEGIN
+INSERT INTO rentals VALUES (default, (Select id_rental From rentals Where ???),
+                                    (Select id_student From students Where full_name = 'Jack Sparrow'),
+                                    (Select id_employee From employees Where full_name = 'Grace Augustine'),
+                                    );
+    END
+$procedure$;
+
+INSERT INTO completion_date VALUES (default, (Select id_rental From rentals Where ???),
+                                    (Select id_student From students Where full_name = 'Jack Sparrow'),
+                                    (Select id_employee From employees Where full_name = 'Grace Augustine'),
+                                    );

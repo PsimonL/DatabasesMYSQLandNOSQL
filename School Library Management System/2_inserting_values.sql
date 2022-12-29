@@ -99,13 +99,28 @@ $procedure$;
 CALL insert_vals_rentals();
 
 -- adding records to COMPLETION_DATE table
--- TO FIX
+CREATE OR REPLACE PROCEDURE insert_vals_completion_date(
+  first_name_student varchar(20),
+  last_name_student varchar(20),
+  employee_card_id int,
+  return_date date
+  )
+LANGUAGE plpgsql
+AS $procedure$
+    BEGIN
+        INSERT INTO completion_date VALUES (default, (Select max(id_rental) From rentals),
+                                        (Select id_student From students Where first_name_student = 'Jack' and last_name_student = 'Sparrow'),
+                                        employee_card_id, (Select CURRENT_DATE), return_date);
+    END
+$procedure$;
+
+
 CREATE OR REPLACE FUNCTION trigger_function_completion_date()
 RETURNS TRIGGER
 LANGUAGE plpgsql
 AS $trigger$
     BEGIN
-        INSERT INTO completion_date VALUES (default, 1, 'Szymon Rogowski', 111222333, 'szymon_rogowski@gmail.com');
+        CALL insert_vals_completion_date(first_name_student := 'Jack', last_name_student := 'Sparrow', employee_card_id := 112, return_date := '2023-01-10'); -- YYYY-MM-DD
         RETURN NEW;
     END
 $trigger$;
@@ -115,8 +130,3 @@ CREATE TRIGGER trigger_completion_date
    ON rentals
    FOR EACH ROW
        EXECUTE PROCEDURE trigger_function_completion_date();
-
-INSERT INTO completion_date VALUES (default, (Select id_rental From rentals Where ???),
-                                    (Select id_student From students Where full_name = 'Jack Sparrow'),
-                                    (Select id_employee From employees Where full_name = 'Grace Augustine'),
-                                    );

@@ -95,8 +95,8 @@ CREATE TABLE  IF NOT EXISTS  completion_date(
   id_completion int GENERATED ALWAYS AS IDENTITY,
   id_rental int NOT NULL,
   id_student int NOT NULL,
-  id_employee int NOT NULL,
-  rental_date timestamp DEFAULT now(),
+  employee_card_id int NOT NULL,
+  rental_date date NOT NULL DEFAULT CURRENT_DATE,
   return_date date,
 
   PRIMARY KEY (id_completion),
@@ -105,9 +105,6 @@ CREATE TABLE  IF NOT EXISTS  completion_date(
           REFERENCES rentals(id_rental),
   CONSTRAINT  fk_id_student
       FOREIGN KEY (id_student)
-          REFERENCES students(id_student),
-  CONSTRAINT fk_id_employee
-      FOREIGN KEY (id_employee)
-          REFERENCES employees(id_employee)
+          REFERENCES students(id_student)
 );
 -- #########################################################################

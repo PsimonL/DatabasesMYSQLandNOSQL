@@ -127,3 +127,62 @@ INSERT INTO customers VALUES(default, 'dddd', 'dddd', '2022-01-10');
 SELECT * FROM customers;
 
 DROP TABLE customers;
+
+
+
+-- CREATE TABLE lol
+-- AS (
+--   SELECT *
+--   FROM Customers
+--   WHERE country = 'USA'
+-- );
+
+
+--
+--     SELECT split_part(col, ',', 1) AS col1
+--      , split_part(col, ',', 2) AS col2;
+-- SELECT * FROM lol;
+-- SELECT parts FROM lol WHERE id = 1;
+
+-- DROP TABLE lol CASCADE;
+
+
+-- DROP PROCEDURE IF EXISTS proccedure();
+-- CREATE OR REPLACE PROCEDURE proccedure(
+--     author_name varchar(60)
+--   )
+-- LANGUAGE plpgsql
+-- AS $procedure$
+--     DECLARE
+--         name_2nd varchar(30);
+--     BEGIN
+--        SELECT SPLIT_PART(author_name, ' ', 2) INTO name_2nd;
+--
+-- --         INSERT INTO books VALUES (default, title, (Select id_author From authors Where last_name = l_name),
+-- --                                   isbn, for_adults, publication_year, genre);
+--     END;
+-- $procedure$;
+--
+-- CALL proccedure('Roman Godday');
+
+DROP PROCEDURE IF EXISTS func();
+DROP FUNCTION IF EXISTS func();
+CREATE OR REPLACE FUNCTION func(
+    author_name varchar(60)
+  )
+    RETURNS varchar
+LANGUAGE plpgsql
+AS $procedure$
+    DECLARE
+        name_2nd varchar(30);
+    BEGIN
+       SELECT SPLIT_PART(author_name, ' ', 2) INTO name_2nd;
+       RETURN name_2nd;
+--         INSERT INTO books VALUES (default, title, (Select id_author From authors Where last_name = l_name),
+--                                   isbn, for_adults, publication_year, genre);
+    END;
+$procedure$;
+
+-- CALL proccedure('Roman Godday');
+
+select func('Roman Godday');

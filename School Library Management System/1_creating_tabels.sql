@@ -1,3 +1,9 @@
+-- ###############################################################################################################################
+-- ###############################################################################################################################
+-- Creating initial tables
+-- ###############################################################################################################################
+-- ###############################################################################################################################
+
 -- #########################################################################
 -- 1
 -- TABLE STUDENTS
@@ -98,7 +104,7 @@ CREATE TABLE  IF NOT EXISTS  completion_date(
   id_student int NOT NULL,
   employee_card_id int NOT NULL,
   rental_date date NOT NULL DEFAULT CURRENT_DATE,
-  return_date date,
+  return_date date CHECK (return_date >= CURRENT_DATE),
 
   PRIMARY KEY (id_completion),
   CONSTRAINT fk_id_rental
@@ -107,5 +113,22 @@ CREATE TABLE  IF NOT EXISTS  completion_date(
   CONSTRAINT  fk_id_student
       FOREIGN KEY (id_student)
           REFERENCES students(id_student)
+);
+-- #########################################################################
+
+
+-- #########################################################################
+-- 7
+-- TABLE QUANTITY_BOOKS
+DROP TABLE IF EXISTS quantity_books CASCADE;
+CREATE TABLE  IF NOT EXISTS  quantity_books(
+  id_quantity int GENERATED ALWAYS AS IDENTITY,
+  id_book int NOT NULL,
+  quantity int NOT NULL,
+
+  PRIMARY KEY (id_quantity),
+  CONSTRAINT fk_id_book
+      FOREIGN KEY (id_book)
+          REFERENCES books(id_book)
 );
 -- #########################################################################

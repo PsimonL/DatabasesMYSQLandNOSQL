@@ -13,11 +13,15 @@ CREATE TABLE  IF NOT EXISTS  students(
   first_name char (20),
   last_name char (25),
   student_card_id int UNIQUE,
-  email char(70),
+  email char(70), -- every email adress MUST contain @     CHECK(email LIKE '%@%')
   phone int,
 
   PRIMARY KEY (id_student)
 );
+ALTER TABLE students ADD CONSTRAINT first_name CHECK(first_name ~* '[A-Za-z]');
+ALTER TABLE students ADD CONSTRAINT last_name CHECK(last_name ~* '[A-Za-z]');
+ALTER TABLE students ADD CONSTRAINT email CHECK(email ~* '[A-Za-z]+_+[A-Za-z]+@+[a-z][.]+[a-z]');
+ALTER TABLE students ADD CONSTRAINT phone CHECK(phone >= 111111111 AND phone <= 999999999);
 -- #########################################################################
 
 
@@ -31,11 +35,13 @@ CREATE TABLE  IF NOT EXISTS  employees(
   last_name varchar(20) UNIQUE,
   employee_card_id int UNIQUE,
   email char(70),
-  phone int CHECK (phone >= 111111111 and phone <= 999999999), -- phone number greater must contain 9 digits
+  phone int, -- phone number greater must contain 9 digits
   -- no DATALENGTH func in postgres and aggregate functions not allowed in check syntax
 
   PRIMARY KEY (id_employee)
 );
+ALTER TABLE employees ADD CONSTRAINT email CHECK(email ~* '[A-Za-z]+_+[A-Za-z]+@+[a-z][.]+[a-z]');
+ALTER TABLE employees ADD CONSTRAINT phone CHECK(phone >= 111111111 AND phone <= 999999999);
 -- #########################################################################
 
 
@@ -50,6 +56,8 @@ CREATE TABLE  IF NOT EXISTS  authors(
 
   PRIMARY KEY (id_author)
 );
+ALTER TABLE authors ADD CONSTRAINT first_name CHECK(first_name ~* '[A-Za-z]');
+ALTER TABLE authors ADD CONSTRAINT last_name CHECK(last_name ~* '[A-Za-z]');
 -- #########################################################################
 
 
@@ -71,6 +79,7 @@ CREATE TABLE  IF NOT EXISTS  books(
       FOREIGN KEY (id_author)
           REFERENCES authors(id_author)
 );
+ALTER TABLE books ADD CONSTRAINT publication_year CHECK(publication_year >= 0);
 -- #########################################################################
 
 
@@ -103,8 +112,8 @@ CREATE TABLE  IF NOT EXISTS  completion_date(
   id_rental int NOT NULL,
   id_student int NOT NULL,
   employee_card_id int NOT NULL,
-  rental_date date NOT NULL DEFAULT CURRENT_DATE,
-  return_date date CHECK (return_date >= CURRENT_DATE),
+  rental_date date NOT NULL,
+  return_date date,
 
   PRIMARY KEY (id_completion),
   CONSTRAINT fk_id_rental
@@ -114,6 +123,8 @@ CREATE TABLE  IF NOT EXISTS  completion_date(
       FOREIGN KEY (id_student)
           REFERENCES students(id_student)
 );
+ALTER TABLE completion_date ADD CONSTRAINT return_date CHECK (return_date >= CURRENT_DATE);
+ALTER TABLE completion_date ALTER COLUMN rental_date SET DEFAULT CURRENT_DATE;
 -- #########################################################################
 
 

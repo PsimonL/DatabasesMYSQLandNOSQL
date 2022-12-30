@@ -236,3 +236,57 @@ END;$$;
 CREATE TRIGGER mytab_hist
    BEFORE INSERT OR UPDATE OR DELETE ON mytab FOR EACH ROW
    EXECUTE FUNCTION mytab_hist();
+
+INSERT INTO mytab VALUES (default, 'AAAAAAAAA');
+
+SELECT * FROM mytab;
+SELECT * FROM mytab_hist;
+
+
+
+-- ######################################################################################################################################
+-- ######################################################################################################################################
+-- ######################################################################################################################################
+
+DROP TABLE IF EXISTS tabA CASCADE;
+CREATE TABLE  IF NOT EXISTS  tabA(
+    id int GENERATED ALWAYS AS IDENTITY,
+    val1 int,
+    val2 int
+);
+
+DROP TABLE IF EXISTS tabB CASCADE;
+CREATE TABLE  IF NOT EXISTS  tabB(
+    id int GENERATED ALWAYS AS IDENTITY,
+    sum int
+);
+
+DROP FUNCTION IF EXISTS exmaple_function_trigger() CASCADE;
+CREATE FUNCTION exmaple_function_trigger() RETURNS trigger
+   LANGUAGE plpgsql AS $$
+BEGIN
+    INSERT INTO tabB (id, sum) VALUES (default, NEW.val1 + NEW.val2);
+   RETURN NEW;
+END;$$;
+
+DROP TRIGGER IF EXISTS example_trigger ON tabA;
+CREATE TRIGGER example_trigger
+AFTER INSERT ON tabA
+    FOR EACH ROW
+        EXECUTE  FUNCTION exmaple_function_trigger();
+
+
+INSERT INTO tabA VALUES (default, 1, 2);
+INSERT INTO tabA VALUES (default, 10, 20);
+INSERT INTO tabA VALUES (default, 100, 200);
+
+SELECT * FROM tabA;
+SELECT * FROM tabB;
+
+-- Working trigger
+
+
+-- ######################################################################################################################################
+-- ######################################################################################################################################
+-- ######################################################################################################################################
+

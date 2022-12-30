@@ -157,14 +157,21 @@ AS $trigger$
         get_id_employee int;
         get_employee_card_id int;
         get_max_id_rental int;
+        get_current_date date;
     BEGIN
-        SELECT max(id_rental) INTO get_max_id_rental;
-        SELECT id_student INTO get_id_student FROM rentals WHERE id_rental = get_max_id_rental;
-        SELECT id_employee INTO get_id_employee FROM rentals WHERE id_rental = get_max_id_rental;
-        SELECT employee_card_id INTO get_employee_card_id FROM employees WHERE get_id_employee = id_employee;
-        CALL insert_vals_completion_date(get_id_student,
-                                        get_employee_card_id,
-                                        '2023-01-10'); -- YYYY-MM-DD
+--         SELECT max(id_rental) INTO get_max_id_rental;
+--         Select CURRENT_DATE INTO get_current_date;
+--         SELECT id_student INTO get_id_student FROM rentals WHERE id_rental = get_max_id_rental;
+--         SELECT id_employee INTO get_id_employee FROM rentals WHERE id_rental = get_max_id_rental;
+--         SELECT employee_card_id INTO get_employee_card_id FROM employees WHERE get_id_employee = id_employee;
+--         CALL insert_vals_completion_date(NEW.get_id_student,
+--                                         NEW.et_employee_card_id,
+--                                         NEW.('2023-01-10')); -- YYYY-MM-DD
+        INSERT INTO completion_date VALUES (default,
+                                            NEW.id_rental, NEW.id_student,
+                                            NEW.id_employee,
+                                            CURRENT_DATE,
+                                            '2023-01-10');
         RETURN NEW;
     END;
 $trigger$;

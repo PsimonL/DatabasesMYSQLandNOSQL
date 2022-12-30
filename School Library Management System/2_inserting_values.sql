@@ -12,13 +12,13 @@ AS $procedure$
     BEGIN
         if domain LIKE 'gmail.com' then
             INSERT INTO students VALUES (default, first_name, last_name, student_card_id,
-                                        (Select concat(lower(first_name), '_', lower(last_name), '@gmail.com'), phone));
+                                        (Select concat(lower(first_name), '_', lower(last_name), '@gmail.com')), phone);
         elsif domain LIKE 'yahoo.com' then
                  INSERT INTO students VALUES (default, first_name, last_name, student_card_id,
-                                        (Select concat(lower(first_name), '_', lower(last_name), '@yahoo.com'), phone));
+                                        (Select concat(lower(first_name), '_', lower(last_name), '@yahoo.com')), phone);
         elsif domain LIKE 'hotmail.com' then
              INSERT INTO students VALUES (default, first_name, last_name, student_card_id,
-                                        (Select concat(lower(first_name), '_', lower(last_name), '@hotmail.com'), phone));
+                                        (Select concat(lower(first_name), '_', lower(last_name), '@hotmail.com')), phone);
         else
                 raise notice 'Domain NOT found.';
         end if;
@@ -27,15 +27,15 @@ AS $procedure$
 $procedure$;
 
 CALL insert_vals_students('Jack', 'Sparrow',155533, 321842476, 'gmail.com');
-CALL insert_vals_students('Elisabeth', 'Smith', 347033, 229868299, 'gmail.com');
+CALL insert_vals_students('Elizabeth', 'Swann', 347033, 229868299, 'gmail.com');
 CALL insert_vals_students('Will', 'Turner', 437652, 623613519, 'hotmail.com');
 CALL insert_vals_students('Hector', 'Barbossa', 281673, 562652275, 'yahoo.com');
 CALL insert_vals_students('James', 'Norrington', 404169, 938618097, 'gmail.com');
 CALL insert_vals_students('Joshamee', 'Gibbs', 566316, 359300371, 'yahoo.com');
 
 -- adding records to EMPLOYEES table
-INSERT INTO employees VALUES (default, 'Jake Sully', 112, 'jake_sully_work@yahoo-inc.com', 938618097);
-INSERT INTO employees VALUES (default, 'Grace Augustine', 242, 'grace_augustin_work@yahoo-inc.com', 359300371);
+INSERT INTO employees VALUES (default, 'Jake', 'Sully', 112, 'jake_sully_work@yahoo-inc.com', 938618097);
+INSERT INTO employees VALUES (default, 'Grace', 'Augustine', 242, 'grace_augustin_work@yahoo-inc.com', 359300371);
 
 -- adding records to AUTHORS table
 INSERT INTO authors VALUES (default, 'Fyodor', 'Dostoevsky');
@@ -81,23 +81,6 @@ CALL insert_vals_books ('A Gentle Creature', 'Dostoevsky', '555-22-444-777', fal
 CALL insert_vals_books ('Macbeth', 'Shakespeare', '222-000-999-888', false,
     1623, 'tragedy');
 
--- adding records to RENTALS table
-CREATE OR REPLACE PROCEDURE insert_vals_rentals(
-  first_name_student varchar(20),
-  first_name_employee varchar(20),
-  last_name_student varchar(20),
-  last_name_employee varchar(20)
-  )
-LANGUAGE plpgsql
-AS $procedure$
-    BEGIN
-        INSERT INTO rentals VALUES (default, (Select id_student From students Where first_name = first_name_student And last_name = last_name_student),
-                                    (Select id_employee From employees Where first_name = first_name_employee And last_name = last_name_employee));
-    END
-$procedure$;
-
-CALL insert_vals_rentals();
-
 -- adding records to COMPLETION_DATE table
 CREATE OR REPLACE PROCEDURE insert_vals_completion_date(
   first_name_student varchar(20),
@@ -130,3 +113,21 @@ CREATE TRIGGER trigger_completion_date
    ON rentals
    FOR EACH ROW
        EXECUTE PROCEDURE trigger_function_completion_date();
+
+-- adding records to RENTALS table
+CREATE OR REPLACE PROCEDURE insert_vals_rentals(
+  first_name_student varchar(20),
+  first_name_employee varchar(20),
+  last_name_student varchar(20),
+  last_name_employee varchar(20)
+  )
+LANGUAGE plpgsql
+AS $procedure$
+    BEGIN
+        INSERT INTO rentals VALUES (default, (Select id_student From students Where first_name = first_name_student And last_name = last_name_student),
+                                    (Select id_employee From employees Where first_name = first_name_employee And last_name = last_name_employee));
+    END
+$procedure$;
+
+CALL insert_vals_rentals('Jack', 'Jake','Sparrow', 'Sully');
+CALL insert_vals_rentals('Elizabeth', 'Jake','Swann', 'Sully');

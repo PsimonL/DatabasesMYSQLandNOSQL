@@ -1,7 +1,7 @@
 -- #########################################################################
 -- 1
 -- TABLE STUDENTS
-DROP TABLE IF EXISTS students;
+DROP TABLE IF EXISTS students CASCADE;
 CREATE TABLE  IF NOT EXISTS  students(
   id_student int GENERATED ALWAYS AS IDENTITY,
   first_name char (20),
@@ -18,14 +18,15 @@ CREATE TABLE  IF NOT EXISTS  students(
 -- #########################################################################
 -- 2
 -- TABLE STUDENTS
-DROP TABLE IF EXISTS employees;
+DROP TABLE IF EXISTS employees CASCADE;
 CREATE TABLE  IF NOT EXISTS  employees(
   id_employee int GENERATED ALWAYS AS IDENTITY,
   first_name varchar(20) UNIQUE,
   last_name varchar(20) UNIQUE,
   employee_card_id int UNIQUE,
   email char(70),
-  phone int CHECK (length(max(phone)::char) = 9), -- phone number greater must contain 9 digits
+  phone int CHECK (phone >= 111111111 and phone <= 999999999), -- phone number greater must contain 9 digits
+  -- no DATALENGTH func in postgres and aggregate functions not allowed in check syntax
 
   PRIMARY KEY (id_employee)
 );
@@ -35,11 +36,11 @@ CREATE TABLE  IF NOT EXISTS  employees(
 -- #########################################################################
 -- 3
 -- TABLE AUTHORS
-DROP TABLE IF EXISTS authors;
+DROP TABLE IF EXISTS authors CASCADE;
 CREATE TABLE  IF NOT EXISTS  authors(
   id_author int GENERATED ALWAYS AS IDENTITY,
-  first_name char(10),
-  last_name char(10),
+  first_name char(20),
+  last_name char(30),
 
   PRIMARY KEY (id_author)
 );
@@ -49,7 +50,7 @@ CREATE TABLE  IF NOT EXISTS  authors(
 -- #########################################################################
 -- 4
 -- TABLE BOOKS
-DROP TABLE IF EXISTS books;
+DROP TABLE IF EXISTS books CASCADE;
 CREATE TABLE  IF NOT EXISTS  books(
   id_book int GENERATED ALWAYS AS IDENTITY,
   title varchar(150),
@@ -70,7 +71,7 @@ CREATE TABLE  IF NOT EXISTS  books(
 -- #########################################################################
 -- 5
 -- TABLE RENTALS
-DROP TABLE IF EXISTS rentals;
+DROP TABLE IF EXISTS rentals CASCADE;
 CREATE TABLE  IF NOT EXISTS  rentals(
   id_rental int GENERATED ALWAYS AS IDENTITY,
   id_student int NOT NULL,
@@ -90,7 +91,7 @@ CREATE TABLE  IF NOT EXISTS  rentals(
 -- #########################################################################
 -- 6
 -- TABLE RENTALS
-DROP TABLE IF EXISTS completion_date;
+DROP TABLE IF EXISTS completion_date CASCADE;
 CREATE TABLE  IF NOT EXISTS  completion_date(
   id_completion int GENERATED ALWAYS AS IDENTITY,
   id_rental int NOT NULL,

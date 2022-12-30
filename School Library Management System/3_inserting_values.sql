@@ -6,17 +6,17 @@
 
 -- ###############################################################################################################################
 -- STUDENTS TABLE
-CALL insert_vals_students('Jack', 'Sparrow',155533, 321842476, 'gmail.com');
-CALL insert_vals_students('Elizabeth', 'Swann', 347033, 229868299, 'gmail.com');
-CALL insert_vals_students('Will', 'Turner', 437652, 623613519, 'hotmail.com');
+CALL insert_vals_students('Jack', 'Sparrow',155533, 321842476, 'uniNameS.com');
+CALL insert_vals_students('Elizabeth', 'Swann', 347033, 229868299, 'uniNameS.com');
+CALL insert_vals_students('Will', 'Turner', 437652, 623613519, 'uniNameS.com');
 CALL insert_vals_students('Hector', 'Barbossa', 281673, 562652275, 'yahoo.com');
-CALL insert_vals_students('James', 'Norrington', 404169, 938618097, 'gmail.com');
-CALL insert_vals_students('Joshamee', 'Gibbs', 566316, 359300371, 'yahoo.com');
+CALL insert_vals_students('James', 'Norrington', 404169, 938618097, 'uniNameS.com');
+CALL insert_vals_students('Joshamee', 'Gibbs', 566316, 359300371, 'uniNameS.com');
 
 -- ###############################################################################################################################
 -- EMPLOYEES TABLE
-INSERT INTO employees VALUES (default, 'Jake', 'Sully', 112, 'jake_sully_work@yahoo-inc.com', 938618097);
-INSERT INTO employees VALUES (default, 'Grace', 'Augustine', 242, 'grace_augustin_work@yahoo-inc.com', 359300371);
+INSERT INTO employees VALUES (default, 'Jake', 'Sully', 112, 'jake_sully@uniNameE.com', 938618097);
+INSERT INTO employees VALUES (default, 'Grace', 'Augustine', 242, 'grace_augustin@uniNameE.com', 359300371);
 
 -- ###############################################################################################################################
 -- AUTHORS table

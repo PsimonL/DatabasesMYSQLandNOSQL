@@ -10,17 +10,17 @@
 DROP TABLE IF EXISTS students CASCADE;
 CREATE TABLE  IF NOT EXISTS  students(
   id_student int GENERATED ALWAYS AS IDENTITY,
-  first_name char (20),
-  last_name char (25),
+  first_name char (20) NOT NULL,
+  last_name char (25) NOT NULL,
   student_card_id int UNIQUE,
-  email char(70), -- every email adress MUST contain @     CHECK(email LIKE '%@%')
-  phone int,
+  email char(70) NOT NULL, -- every email adress MUST contain @     CHECK(email LIKE '%@%')
+  phone int NOT NULL,
 
   PRIMARY KEY (id_student)
 );
 ALTER TABLE students ADD CONSTRAINT first_name CHECK(first_name ~* '[A-Za-z]');
 ALTER TABLE students ADD CONSTRAINT last_name CHECK(last_name ~* '[A-Za-z]');
-ALTER TABLE students ADD CONSTRAINT email CHECK(email ~* '[A-Za-z]+_+[A-Za-z]+@+[a-z][.]+[a-z]');
+ALTER TABLE students ADD CONSTRAINT email CHECK(email NOT LIKE '%uniNameS.com');
 ALTER TABLE students ADD CONSTRAINT phone CHECK(phone >= 111111111 AND phone <= 999999999);
 -- #########################################################################
 
@@ -34,13 +34,13 @@ CREATE TABLE  IF NOT EXISTS  employees(
   first_name varchar(20) UNIQUE,
   last_name varchar(20) UNIQUE,
   employee_card_id int UNIQUE,
-  email char(70),
-  phone int, -- phone number greater must contain 9 digits
+  email char(70) NOT NULL,
+  phone int NOT NULL, -- phone number greater must contain 9 digits
   -- no DATALENGTH func in postgres and aggregate functions not allowed in check syntax
 
   PRIMARY KEY (id_employee)
 );
-ALTER TABLE employees ADD CONSTRAINT email CHECK(email ~* '[A-Za-z]+_+[A-Za-z]+@+[a-z][.]+[a-z]');
+ALTER TABLE employees ADD CONSTRAINT email CHECK(email NOT LIKE '%uniNameE.com');
 ALTER TABLE employees ADD CONSTRAINT phone CHECK(phone >= 111111111 AND phone <= 999999999);
 -- #########################################################################
 
@@ -51,8 +51,8 @@ ALTER TABLE employees ADD CONSTRAINT phone CHECK(phone >= 111111111 AND phone <=
 DROP TABLE IF EXISTS authors CASCADE;
 CREATE TABLE  IF NOT EXISTS  authors(
   id_author int GENERATED ALWAYS AS IDENTITY,
-  first_name char(20),
-  last_name char(30),
+  first_name char(20) NOT NULL,
+  last_name char(30) NOT NULL,
 
   PRIMARY KEY (id_author)
 );
@@ -70,9 +70,9 @@ CREATE TABLE  IF NOT EXISTS  books(
   title varchar(150),
   id_author int NOT NULL,
   isbn char(20) UNIQUE,
-  for_adults boolean,
-  publication_year int,
-  genre varchar(100),
+  for_adults boolean NOT NULL,
+  publication_year int NOT NULL,
+  genre varchar(100) NOT NULL,
 
   PRIMARY KEY (id_book),
   CONSTRAINT fk_id_author
@@ -80,6 +80,7 @@ CREATE TABLE  IF NOT EXISTS  books(
           REFERENCES authors(id_author)
 );
 ALTER TABLE books ADD CONSTRAINT publication_year CHECK(publication_year >= 0);
+ALTER TABLE books ALTER COLUMN genre SET DEFAULT 'No description';
 -- #########################################################################
 
 
@@ -113,7 +114,7 @@ CREATE TABLE  IF NOT EXISTS  completion_date(
   id_student int NOT NULL,
   employee_card_id int NOT NULL,
   rental_date date NOT NULL,
-  return_date date,
+  return_date date NOT NULL,
 
   PRIMARY KEY (id_completion),
   CONSTRAINT fk_id_rental

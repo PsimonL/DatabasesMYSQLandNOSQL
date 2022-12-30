@@ -290,3 +290,23 @@ SELECT * FROM tabB;
 -- ######################################################################################################################################
 -- ######################################################################################################################################
 
+
+DROP TABLE IF EXISTS students CASCADE;
+CREATE TABLE  IF NOT EXISTS  students(
+  id_student int GENERATED ALWAYS AS IDENTITY,
+  first_name char (20),
+  last_name char (25),
+  student_card_id int UNIQUE,
+  email char(70), -- every email adress MUST contain @     CHECK(email LIKE '%@%')
+  phone int,
+
+  PRIMARY KEY (id_student)
+);
+ALTER TABLE students ADD CONSTRAINT first_name CHECK(first_name ~* '[A-Za-z]');
+ALTER TABLE students ADD CONSTRAINT last_name CHECK(last_name ~* '[A-Za-z]');
+ALTER TABLE students ADD CONSTRAINT email CHECK(email NOT LIKE '%uniNameS.com');
+ALTER TABLE students ADD CONSTRAINT phone CHECK(phone >= 111111111 AND phone <= 999999999);
+
+INSERT INTO students VALUES (default, 'James', 'Smith', 123, 'james_smith@uniNameS.com', 222222222);
+
+SELECT * FROM students;

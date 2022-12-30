@@ -13,35 +13,25 @@ CREATE OR REPLACE PROCEDURE insert_vals_students(
   domain char(15)
   )
 LANGUAGE plpgsql
-AS $procedure$
+AS $procedure_for_inserting_students$
     BEGIN
-        if domain LIKE 'gmail.com' then
+        if domain LIKE 'uniNameS.com' then
             INSERT INTO students VALUES (default,
                                          first_name,
                                          last_name,
                                          student_card_id,
-                                        (Select concat(lower(first_name), '_', lower(last_name), '@gmail.com')),
+                                        (Select concat(lower(first_name), '_', lower(last_name), '@uniNameS.com')),
                                          phone);
         elsif domain LIKE 'yahoo.com' then
-                 INSERT INTO students VALUES (default,
-                                              first_name,
-                                              last_name,
-                                              student_card_id,
-                                              (Select concat(lower(first_name), '_', lower(last_name), '@yahoo.com')),
-                                              phone);
+                raise notice '% is external domain. Only university domain approvable.', domain;
         elsif domain LIKE 'hotmail.com' then
-             INSERT INTO students VALUES (default,
-                                          first_name,
-                                          last_name,
-                                          student_card_id,
-                                          (Select concat(lower(first_name), '_', lower(last_name), '@hotmail.com')),
-                                          phone);
+                raise notice '% is external domain. Only university domain approvable.', domain;
         else
-                raise notice 'Domain NOT found.';
+                raise notice 'Domain NOT in the database or NOT FOUND.';
         end if;
     raise notice 'Inserted values for domain %.', domain;
     END;
-$procedure$;
+$procedure_for_inserting_students$;
 
 
 
@@ -57,7 +47,7 @@ CREATE OR REPLACE PROCEDURE insert_vals_books(
   genre varchar(100)
   )
 LANGUAGE plpgsql
-AS $procedure$
+AS $procedure_for_inserting_books$
     BEGIN
         INSERT INTO books VALUES (default, title,
                                   (Select id_author From authors Where last_name = l_name),
@@ -66,7 +56,7 @@ AS $procedure$
                                   publication_year,
                                   genre);
     END;
-$procedure$;
+$procedure_for_inserting_books$;
 
 
 
@@ -78,7 +68,7 @@ CREATE OR REPLACE PROCEDURE insert_vals_quantity(
     author_name varchar(60)
   )
 LANGUAGE plpgsql
-AS $procedure$
+AS $procedure_for_inserting_quantity$
     DECLARE
         name_1st varchar(20);
         name_2nd varchar(30);
@@ -90,7 +80,7 @@ AS $procedure$
                                      (Select id_author FROM authors WHERE first_name = name_1st AND last_name = name_2nd),
                                      quantity);
     END;
-$procedure$;
+$procedure_for_inserting_quantity$;
 
 
 

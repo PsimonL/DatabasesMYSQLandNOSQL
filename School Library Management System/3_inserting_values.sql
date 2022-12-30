@@ -55,3 +55,14 @@ CALL insert_vals_rentals('Jack', 'Jake','Sparrow', 'Sully');
 -- ###############################################################################################################################
 -- COMPLETION_DATE table
 -- Insertion for RENTALS table triggers COMPLETION_DATE table insertion
+
+-- ###############################################################################################################################
+-- QUANTITY_BOOKS table
+-- 1st name than 2nd name input
+CALL insert_vals_quantity(30, 'Fyodor Dostoevsky');
+CALL insert_vals_quantity(10, 'William Shakespeare');
+CALL insert_vals_quantity(60, 'Stephen King');
+CALL insert_vals_quantity(40, 'Albert Camus');
+CALL insert_vals_quantity(70, 'Oscar Wilde');
+CALL insert_vals_quantity(100, 'Nicolaus Copernicus');
+

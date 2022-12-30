@@ -115,3 +115,20 @@ CREATE TABLE  IF NOT EXISTS  completion_date(
           REFERENCES students(id_student)
 );
 -- #########################################################################
+
+
+-- #########################################################################
+-- 7
+-- TABLE QUANTITY_BOOKS
+DROP TABLE IF EXISTS quantity_books CASCADE;
+CREATE TABLE  IF NOT EXISTS  quantity_books(
+  id_quantity int GENERATED ALWAYS AS IDENTITY,
+  id_book int NOT NULL,
+  quantity int NOT NULL,
+
+  PRIMARY KEY (id_quantity),
+  CONSTRAINT fk_id_book
+      FOREIGN KEY (id_book)
+          REFERENCES books(id_book)
+);
+-- #########################################################################

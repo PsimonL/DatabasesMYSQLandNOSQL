@@ -156,10 +156,12 @@ AS $trigger$
         get_id_student int;
         get_id_employee int;
         get_employee_card_id int;
+        get_max_id_rental int;
     BEGIN
-        SELECT id_student INTO get_id_student FROM rentals HAVING (Select max(id_rental));
-        SELECT id_employee INTO get_id_employee FROM rentals HAVING (Select max(id_rental));
-        SELECT employee_card_id INTO get_employee_card_id FROM employees HAVING get_id_employee = id_employee;
+        SELECT max(id_rental) INTO get_max_id_rental;
+        SELECT id_student INTO get_id_student FROM rentals WHERE id_rental = get_max_id_rental;
+        SELECT id_employee INTO get_id_employee FROM rentals WHERE id_rental = get_max_id_rental;
+        SELECT employee_card_id INTO get_employee_card_id FROM employees WHERE get_id_employee = id_employee;
         CALL insert_vals_completion_date(get_id_student,
                                         get_employee_card_id,
                                         '2023-01-10'); -- YYYY-MM-DD

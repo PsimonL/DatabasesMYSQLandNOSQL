@@ -101,6 +101,8 @@ CREATE TABLE  IF NOT EXISTS  rentals(
       FOREIGN KEY (id_employee)
           REFERENCES employees(id_employee)
 );
+ALTER TABLE rentals ADD COLUMN id_book int;
+ALTER TABLE rentals ADD  CONSTRAINT fk_id_book FOREIGN KEY (id_book) REFERENCES books(id_book);
 -- #########################################################################
 
 

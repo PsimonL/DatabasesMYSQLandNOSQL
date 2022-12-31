@@ -60,6 +60,10 @@ SELECT * FROM quantity_books;
 
 
 
+
+
+
+
 -- Check how much time left with rental for certain student
 DROP FUNCTION IF EXISTS CheckRentalTime(book char, student_id int);
 CREATE FUNCTION CheckRentalTime(book char, student_id int)

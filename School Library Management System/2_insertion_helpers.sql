@@ -112,7 +112,8 @@ CREATE OR REPLACE PROCEDURE insert_vals_rentals(
   first_name_student varchar(20),
   first_name_employee varchar(20),
   last_name_student varchar(20),
-  last_name_employee varchar(20)
+  last_name_employee varchar(20),
+  id_book int
   )
 LANGUAGE plpgsql
 AS $procedure$
@@ -124,7 +125,8 @@ AS $procedure$
         SELECT id_employee INTO result_id_employee FROM employees WHERE first_name = first_name_employee AND last_name = last_name_employee;
         INSERT INTO rentals VALUES (default,
                                     result_id_student,
-                                    result_id_employee);
+                                    result_id_employee,
+                                    id_book);
     END;
 $procedure$;
 
@@ -165,7 +167,7 @@ AS $trigger$
                                             NEW.id_rental,
                                             NEW.id_student,
                                             NEW.id_employee,
-                                            3,
+                                            NEW.id_book,
                                             CURRENT_DATE,
                                             '2023-01-10');
         RETURN NEW;

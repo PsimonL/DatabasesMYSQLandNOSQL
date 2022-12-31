@@ -50,7 +50,9 @@ CALL insert_vals_books ('Macbeth', 'Shakespeare', '222-000-999-888', false,
 
 -- ###############################################################################################################################
 -- RENTALS table
-CALL insert_vals_rentals('Jack', 'Jake','Sparrow', 'Sully');
+CALL insert_vals_rentals('Jack', 'Jake','Sparrow', 'Sully', 9);
+CALL insert_vals_rentals('Joshamee', 'Grace','Gibbs', 'Augustine', 3);
+CALL insert_vals_rentals('James', 'Jake','Norrington', 'Sully', 6);
 
 -- ###############################################################################################################################
 -- COMPLETION_DATE table

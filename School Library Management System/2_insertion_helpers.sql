@@ -94,14 +94,11 @@ CREATE OR REPLACE PROCEDURE insert_vals_supply(
   )
 LANGUAGE plpgsql
 AS $procedure_for_inserting_supply$
-    DECLARE
-        help int;
     BEGIN
-        INSERT INTO supply_history VALUES (default, book_id, title, quant);
-        help = help + quant;
-        UPDATE quantity_books SET quantity = help
+        INSERT INTO supply_history VALUES (default, book_id, title, quantity);
+        UPDATE quantity_books SET quantity = quantity_books.quantity + quant
                                FROM supply_history
-                               WHERE quantity_books.quantity = supply_history.quantity;
+                               WHERE quantity_books.id_book = supply_history.id_book;
     END;
 $procedure_for_inserting_supply$;
 

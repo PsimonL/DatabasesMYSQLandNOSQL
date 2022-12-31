@@ -190,7 +190,7 @@ CREATE TRIGGER trigger_completion_date
 -- QUANTITY_BOOKS table
 -- Trigger to update quantity of books after supply
 
---
+-- TO FIX, doesnt update field properly, Functions written in 22 folder with same functionality
 DROP FUNCTION IF EXISTS update_quantity_books_after_supply() CASCADE;
 CREATE OR REPLACE FUNCTION update_quantity_books_after_supply()
 RETURNS TRIGGER

@@ -21,7 +21,7 @@ CREATE TABLE  IF NOT EXISTS  students(
 ALTER TABLE students ADD CONSTRAINT first_name CHECK(first_name ~* '[A-Za-z]');
 ALTER TABLE students ADD CONSTRAINT last_name CHECK(last_name ~* '[A-Za-z]');
 ALTER TABLE students ADD CONSTRAINT email CHECK(email NOT LIKE '%uniNameS.com');
-ALTER TABLE students ADD CONSTRAINT phone CHECK(phone >= 111111111 AND phone <= 999999999);
+ALTER TABLE students ADD CONSTRAINT phone CHECK(phone BETWEEN 111111111 AND 999999999);
 -- #########################################################################
 
 
@@ -139,6 +139,24 @@ CREATE TABLE  IF NOT EXISTS  quantity_books(
   quantity int NOT NULL,
 
   PRIMARY KEY (id_quantity),
+  CONSTRAINT fk_id_book
+      FOREIGN KEY (id_book)
+          REFERENCES books(id_book)
+);
+-- #########################################################################
+
+
+-- #########################################################################
+-- 8
+-- TABLE SUPPLY
+DROP TABLE IF EXISTS supply_history CASCADE;
+CREATE TABLE  IF NOT EXISTS  supply_history(
+  id_supply int GENERATED ALWAYS AS IDENTITY,
+  id_book int NOT NULL,
+  title varchar(150) DEFAULT('None'),
+  quantity int NOT NULL,
+
+  PRIMARY KEY (id_supply),
   CONSTRAINT fk_id_book
       FOREIGN KEY (id_book)
           REFERENCES books(id_book)

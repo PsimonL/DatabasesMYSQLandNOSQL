@@ -136,25 +136,26 @@ $procedure$;
 
 -- ###############################################################################################################################
 -- COMPLETION_DATE table
-DROP PROCEDURE IF EXISTS insert_vals_completion_date();
-CREATE OR REPLACE PROCEDURE insert_vals_completion_date(
-  id_student int,
-  employee_card_id int,
-  id_book int,
-  return_date date
-  )
-LANGUAGE plpgsql
-AS $procedure$
-    BEGIN
-        INSERT INTO completion_date VALUES (default,
-                                            (Select max(id_rental) From rentals),
-                                            id_student,
-                                            id_book,
-                                            employee_card_id,
-                                            (Select CURRENT_DATE),
-                                            return_date);
-    END;
-$procedure$;
+
+-- DROP PROCEDURE IF EXISTS insert_vals_completion_date();
+-- CREATE OR REPLACE PROCEDURE insert_vals_completion_date(
+--   id_student int,
+--   employee_card_id int,
+--   id_book int,
+--   return_date date
+--   )
+-- LANGUAGE plpgsql
+-- AS $procedure$
+--     BEGIN
+--         INSERT INTO completion_date VALUES (default,
+--                                             (Select max(id_rental) From rentals),
+--                                             id_student,
+--                                             id_book,
+--                                             employee_card_id,
+--                                             (Select CURRENT_DATE),
+--                                             return_date);
+--     END;
+-- $procedure$;
 
 
 DROP FUNCTION IF EXISTS trigger_function_completion_date() CASCADE;

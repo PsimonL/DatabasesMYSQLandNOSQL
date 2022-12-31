@@ -43,24 +43,35 @@ $$;
 SELECT * FROM MinMaxQuantity('min');
 
 
-
+-------------------------------------------------------------------------
 -- Update quantity_books after supply
-DROP PROCEDURE IF EXISTS update_quantity_books_after_supply();
-CREATE OR REPLACE PROCEDURE update_quantity_books_after_supply()
+-- DROP PROCEDURE IF EXISTS update_quantity_books_after_supply();
+-- CREATE OR REPLACE PROCEDURE update_quantity_books_after_supply()
+-- LANGUAGE plpgsql
+-- AS $procedure_for_updating_quantity$
+--     BEGIN
+--         UPDATE quantity_books SET quantity = quantity_books.quantity + supply_history.quantity
+--             FROM supply_history
+--             WHERE quantity_books.id_book = supply_history.id_book;
+--     END;
+-- $procedure_for_updating_quantity$;
+-- CALL update_quantity_books_after_supply();
+-- SELECT * FROM quantity_books;
+----------------------------------------------------------------------------
+
+
+-- Update return date for certain student
+DROP PROCEDURE IF EXISTS update_return_date(days int, student_id int, book_id int);
+CREATE OR REPLACE PROCEDURE update_return_date(days int, student_id int, book_id int)
 LANGUAGE plpgsql
-AS $procedure_for_updating_quantity$
+AS $procedure_for_updating_return_date$
     BEGIN
-        UPDATE quantity_books SET quantity = quantity_books.quantity + supply_history.quantity
-            FROM supply_history
-            WHERE quantity_books.id_book = supply_history.id_book;
+        UPDATE completion_date SET return_date = return_date + days
+            WHERE id_student = student_id AND id_book = book_id;
     END;
-$procedure_for_updating_quantity$;
-CALL update_quantity_books_after_supply();
-SELECT * FROM quantity_books;
-
-
-
-
+$procedure_for_updating_return_date$;
+CALL update_return_date(5, 1, 9);
+SELECT * FROM completion_date;
 
 
 

@@ -138,6 +138,7 @@ DROP PROCEDURE IF EXISTS insert_vals_completion_date();
 CREATE OR REPLACE PROCEDURE insert_vals_completion_date(
   id_student int,
   employee_card_id int,
+  id_book int,
   return_date date
   )
 LANGUAGE plpgsql
@@ -146,6 +147,7 @@ AS $procedure$
         INSERT INTO completion_date VALUES (default,
                                             (Select max(id_rental) From rentals),
                                             id_student,
+                                            id_book,
                                             employee_card_id,
                                             (Select CURRENT_DATE),
                                             return_date);
@@ -158,16 +160,12 @@ CREATE OR REPLACE FUNCTION trigger_function_completion_date()
 RETURNS TRIGGER
 LANGUAGE plpgsql
 AS $trigger$
-    DECLARE
-        get_id_student int;
-        get_id_employee int;
-        get_employee_card_id int;
-        get_max_id_rental int;
-        get_current_date date;
     BEGIN
         INSERT INTO completion_date VALUES (default,
-                                            NEW.id_rental, NEW.id_student,
+                                            NEW.id_rental,
+                                            NEW.id_student,
                                             NEW.id_employee,
+                                            3,
                                             CURRENT_DATE,
                                             '2023-01-10');
         RETURN NEW;

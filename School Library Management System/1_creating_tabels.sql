@@ -113,6 +113,7 @@ CREATE TABLE  IF NOT EXISTS  completion_date(
   id_rental int NOT NULL,
   id_student int NOT NULL,
   employee_card_id int NOT NULL,
+  id_book int NOT NULL,
   rental_date date NOT NULL,
   return_date date NOT NULL,
 
@@ -122,7 +123,11 @@ CREATE TABLE  IF NOT EXISTS  completion_date(
           REFERENCES rentals(id_rental),
   CONSTRAINT  fk_id_student
       FOREIGN KEY (id_student)
-          REFERENCES students(id_student)
+          REFERENCES students(id_student),
+  CONSTRAINT fk_id_book
+      FOREIGN KEY (id_book)
+           REFERENCES books(id_book)
+
 );
 ALTER TABLE completion_date ADD CONSTRAINT return_date CHECK (return_date >= CURRENT_DATE);
 ALTER TABLE completion_date ALTER COLUMN rental_date SET DEFAULT CURRENT_DATE;

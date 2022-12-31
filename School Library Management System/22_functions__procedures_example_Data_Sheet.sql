@@ -56,3 +56,29 @@ AS $procedure_for_updating_quantity$
     END;
 $procedure_for_updating_quantity$;
 CALL update_quantity_books_after_supply();
+SELECT * FROM quantity_books;
+
+
+
+-- Check how much time left with rental for certain student
+DROP FUNCTION IF EXISTS CheckRentalTime(book char, student_id int);
+CREATE FUNCTION CheckRentalTime(book char, student_id int)
+RETURNS int
+LANGUAGE plpgsql
+AS $$
+    DECLARE
+        retVal int;
+    BEGIN
+    SELECT return_date - CURRENT_DATE, title INTO retVal FROM completion_date, books
+        WHERE student_id = completion_date.id_student
+        AND completion_date.id_book = (Select books.id_book Where books.title = book);
+    RETURN retVal;
+    END
+$$;
+DO $$
+    DECLARE ret int;
+BEGIN
+        ret = (SELECT * FROM CheckRentalTime('The Plague', 1));
+        raise notice 'Number of days left = %', ret;
+END$$;
+SELECT * FROM CheckRentalTime('The Plague', 1);

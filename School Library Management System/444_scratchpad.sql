@@ -370,3 +370,6 @@ FROM product_segment
 WHERE product.segment_id = product_segment.id;
 
 SELECT * FROM product;
+
+----------------------------------------------------------------------------------
+SELECT '2022-1-10' - CURRENT_DATE;

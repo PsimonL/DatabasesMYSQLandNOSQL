@@ -66,3 +66,8 @@ CALL insert_vals_quantity(40, 'Albert Camus');
 CALL insert_vals_quantity(70, 'Oscar Wilde');
 CALL insert_vals_quantity(100, 'Nicolaus Copernicus');
 
+-- ###############################################################################################################################
+-- SUPPLY table
+CALL insert_vals_supply(4, null, 1000);
+CALL insert_vals_supply(5, null, 2000);
+

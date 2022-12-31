@@ -15,3 +15,9 @@ SELECT * FROM rentals ORDER BY rentals.id_rental;
 
 -- 6
 SELECT * FROM completion_date ORDER BY completion_date.id_completion;
+
+-- 7
+SELECT * FROM quantity_books ORDER BY quantity_books.id_quantity;
+
+-- 8
+SELECT * FROM supply_history ORDER BY supply_history.id_supply;

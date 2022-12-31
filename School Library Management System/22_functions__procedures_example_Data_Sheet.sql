@@ -43,7 +43,7 @@ $$;
 SELECT * FROM MinMaxQuantity('min');
 
 
--------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------
 -- Update quantity_books after supply
 -- DROP PROCEDURE IF EXISTS update_quantity_books_after_supply();
 -- CREATE OR REPLACE PROCEDURE update_quantity_books_after_supply()
@@ -57,7 +57,7 @@ SELECT * FROM MinMaxQuantity('min');
 -- $procedure_for_updating_quantity$;
 -- CALL update_quantity_books_after_supply();
 -- SELECT * FROM quantity_books;
-----------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------
 
 
 -- Update return date for certain student

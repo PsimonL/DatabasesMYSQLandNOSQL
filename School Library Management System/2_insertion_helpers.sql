@@ -101,9 +101,6 @@ $procedure_for_inserting_supply$;
 
 
 
-
-
-
 -- ###############################################################################################################################
 -- ###############################################################################################################################
 -- RENTALS table
@@ -181,7 +178,36 @@ CREATE TRIGGER trigger_completion_date
    AFTER INSERT
    ON rentals
    FOR EACH ROW
-       EXECUTE PROCEDURE trigger_function_completion_date();
+       EXECUTE FUNCTION trigger_function_completion_date();
 
 
 -- CALL insert_vals_rentals('Jack', 'Jake','Sparrow', 'Sully');
+
+
+
+-- ###############################################################################################################################
+-- ###############################################################################################################################
+-- QUANTITY_BOOKS table
+-- Trigger to update quantity of books after supply
+
+--
+DROP FUNCTION IF EXISTS update_quantity_books_after_supply() CASCADE;
+CREATE OR REPLACE FUNCTION update_quantity_books_after_supply()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+AS $trigger$
+    BEGIN
+        UPDATE quantity_books AS q
+            SET NEW.quantity = supply_history.quantity + OLD.quantity
+            FROM supply_history
+            WHERE q.id_book = supply_history.id_book;
+        RETURN NEW;
+    END;
+$trigger$;
+
+DROP TRIGGER IF EXISTS trigger_completion_date ON supply_history;
+CREATE TRIGGER trigger_insert_supply
+   AFTER INSERT
+   ON supply_history
+   FOR EACH ROW
+       EXECUTE FUNCTION update_quantity_books_after_supply();

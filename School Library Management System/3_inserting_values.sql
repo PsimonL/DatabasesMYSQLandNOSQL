@@ -69,7 +69,12 @@ CALL insert_vals_quantity(70, 'Oscar Wilde');
 CALL insert_vals_quantity(100, 'Nicolaus Copernicus');
 
 -- ###############################################################################################################################
--- SUPPLY table
-CALL insert_vals_supply(4, null, 1000);
-CALL insert_vals_supply(5, null, 2000);
+-- SUPPLY_HISTORY table
+SELECT * FROM quantity_books ORDER BY id_quantity;
+SELECT * FROM supply_history;
+CALL insert_vals_supply(5, null, 200);
+CALL insert_vals_supply(6, null, 200);
+SELECT * FROM supply_history;
+SELECT * FROM quantity_books ORDER BY id_quantity;
+
 

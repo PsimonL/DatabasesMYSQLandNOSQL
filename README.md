@@ -1,1 +1,1 @@
-# SQL and noSQL mini projects
+# SQL and noSQL

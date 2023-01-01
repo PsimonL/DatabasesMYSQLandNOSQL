@@ -189,8 +189,30 @@ CREATE TRIGGER trigger_completion_date
 -- ###############################################################################################################################
 -- QUANTITY_BOOKS table
 -- Trigger to update quantity of books after supply
+DROP FUNCTION IF EXISTS maintain_quantity_books_trigger_function() CASCADE;
+CREATE OR REPLACE FUNCTION maintain_quantity_books_trigger_function()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+AS $trigger$
+    BEGIN
+        UPDATE quantity_books AS q
+            SET quantity = q.quantity - coalesce(OLD.quantity, 0) + coalesce(NEW.quantity, 0)
+            WHERE q.id_book = coalesce(NEW.id_book,OLD.id_book);
+        RETURN null; -- It's an after trigger, so this value is ignored.
+    END;
+$trigger$;
 
--- TO FIX, doesnt update field properly, Functions written in 22 folder with same functionality
+DROP TRIGGER IF EXISTS maintain_quantity_books_trigger ON supply_history;
+CREATE TRIGGER maintain_quantity_books_trigger
+    AFTER INSERT OR UPDATE OF quantity OR DELETE ON supply_history
+    FOR EACH ROW
+    EXECUTE FUNCTION maintain_quantity_books_trigger_function();
+
+-- https://stackoverflow.com/questions/74970806/trigger-insert-in-table-to-update-other-one/74971074#74971074
+-- https://dbfiddle.uk/AClHHryk
+
+
+-- Below code not working, above is a code that fixes problem, thankfully to stack overlow :)
 DROP FUNCTION IF EXISTS update_quantity_books_after_supply() CASCADE;
 CREATE OR REPLACE FUNCTION update_quantity_books_after_supply()
 RETURNS TRIGGER
@@ -198,10 +220,10 @@ LANGUAGE plpgsql
 AS $trigger$
     BEGIN
         UPDATE quantity_books AS q
-            SET NEW.quantity = supply_history.quantity + OLD.quantity
+            SET quantity = supply_history.quantity + OLD.quantity
             FROM supply_history
             WHERE q.id_book = supply_history.id_book;
-        RETURN NEW;
+        RETURN null;
     END;
 $trigger$;
 

@@ -1,0 +1,51 @@
+========================================================================================================================
+https://stackoverflow.com/questions/74970806/trigger-insert-in-table-to-update-other-one/74971074#74971074
+https://dbfiddle.uk/AClHHryk
+========================================================================================================================
+You have access to the updated row via NEW, so there's no need to do an update...from referencing again the whole table this row goes into.
+Additionally, you need to handle delete, update and truncate on that table - otherwise it'll go out of sync if you watch insert operations only.
+
+Luckily, you can handle insert, update and delete events in a single trigger:
+
+DROP FUNCTION IF EXISTS maintain_quantity_books_trigger_function() CASCADE;
+CREATE OR REPLACE FUNCTION maintain_quantity_books_trigger_function()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+AS $trigger$
+    BEGIN
+        UPDATE quantity_books AS q
+            SET quantity = q.quantity
+                           - coalesce(OLD.quantity,0)
+                           + coalesce(NEW.quantity,0)
+            WHERE q.id_book = coalesce(NEW.id_book,OLD.id_book);
+        RETURN null; --it's an after trigger, so this value is ignored
+    END;
+$trigger$;
+
+DROP TRIGGER IF EXISTS maintain_quantity_books_trigger ON supply_history;
+CREATE TRIGGER maintain_quantity_books_trigger
+AFTER INSERT OR UPDATE OF quantity OR DELETE ON supply_history
+FOR EACH ROW EXECUTE FUNCTION maintain_quantity_books_trigger_function();
+It's possible even without checking TG_OP thanks to coalesce() and the behaviour or visibility of OLD and NEW:
+
+OLD will be undefined (null) for an INSERT trigger, so it won't perform subtraction that's otherwise necessary in case you're doing a DELETE or UPDATE.
+In case of UPDATE both OLD and NEW are defined, so you can substract one and add the other, to reflect the correction applied by that update.
+DELETE won't see a NEW record, so it will only subtract the quantity it removes, without adding anything.
+TRUNCATE trigger cannot be declared FOR EACH ROW with the rest of events, so it has to be defined separately:
+
+DROP FUNCTION IF EXISTS maintain_quantity_books_truncate_trigger_function() CASCADE;
+CREATE OR REPLACE FUNCTION maintain_quantity_books_truncate_trigger_function()
+RETURNS TRIGGER LANGUAGE plpgsql AS $trigger$
+    BEGIN
+      UPDATE quantity_books AS q
+      SET quantity = 0;
+      RETURN NULL;
+    END;
+$trigger$;
+
+DROP TRIGGER IF EXISTS maintain_quantity_books_truncate_trigger ON supply_history;
+CREATE TRIGGER maintain_quantity_books_truncate_trigger
+AFTER TRUNCATE ON supply_history
+EXECUTE PROCEDURE maintain_quantity_books_truncate_trigger_function();
+
+

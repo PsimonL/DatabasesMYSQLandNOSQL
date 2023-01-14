@@ -12,11 +12,14 @@ CREATE TABLE  IF NOT EXISTS  students(
   id_student int GENERATED ALWAYS AS IDENTITY,
   first_name char (20) NOT NULL,
   last_name char (25) NOT NULL,
-  student_card_id int UNIQUE,
+  student_card_id int NOT NULL,
   email char(70) NOT NULL, -- every email adress MUST contain @     CHECK(email LIKE '%@%')
-  phone int NOT NULL,
+  phone int NOT NULL ,
 
-  PRIMARY KEY (id_student)
+  PRIMARY KEY (id_student),
+  UNIQUE (student_card_id),
+  UNIQUE (phone),
+  UNIQUE (email)
 );
 ALTER TABLE students ADD CONSTRAINT first_name CHECK(first_name ~* '[A-Za-z]');
 ALTER TABLE students ADD CONSTRAINT last_name CHECK(last_name ~* '[A-Za-z]');
@@ -31,14 +34,17 @@ ALTER TABLE students ADD CONSTRAINT phone CHECK(phone BETWEEN 111111111 AND 9999
 DROP TABLE IF EXISTS employees CASCADE;
 CREATE TABLE  IF NOT EXISTS  employees(
   id_employee int GENERATED ALWAYS AS IDENTITY,
-  first_name varchar(20) UNIQUE,
-  last_name varchar(20) UNIQUE,
-  employee_card_id int UNIQUE,
+  first_name varchar(20),
+  last_name varchar(20),
+  employee_card_id int,
   email char(70) NOT NULL,
   phone int NOT NULL, -- phone number greater must contain 9 digits
   -- no DATALENGTH func in postgres and aggregate functions not allowed in check syntax
 
-  PRIMARY KEY (id_employee)
+  PRIMARY KEY (id_employee),
+  UNIQUE (employee_card_id),
+  UNIQUE (phone),
+  UNIQUE (email)
 );
 ALTER TABLE employees ADD CONSTRAINT email CHECK(email NOT LIKE '%uniNameE.com');
 ALTER TABLE employees ADD CONSTRAINT phone CHECK(phone >= 111111111 AND phone <= 999999999);
@@ -77,7 +83,8 @@ CREATE TABLE  IF NOT EXISTS  books(
   PRIMARY KEY (id_book),
   CONSTRAINT fk_id_author
       FOREIGN KEY (id_author)
-          REFERENCES authors(id_author)
+          REFERENCES authors(id_author),
+  UNIQUE (isbn)
 );
 ALTER TABLE books ADD CONSTRAINT publication_year CHECK(publication_year >= 0);
 ALTER TABLE books ALTER COLUMN genre SET DEFAULT 'No description';
@@ -166,6 +173,7 @@ CREATE TABLE  IF NOT EXISTS  supply_history(
   PRIMARY KEY (id_supply),
   CONSTRAINT fk_id_book
       FOREIGN KEY (id_book)
-          REFERENCES books(id_book)
+          REFERENCES books(id_book),
+  UNIQUE (title)
 );
 -- #########################################################################

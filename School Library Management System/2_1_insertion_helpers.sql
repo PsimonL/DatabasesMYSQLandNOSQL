@@ -232,3 +232,17 @@ CREATE TRIGGER maintain_quantity_books_trigger
 --    ON supply_history
 --    FOR EACH ROW
 --        EXECUTE FUNCTION update_quantity_books_after_supply();
+
+
+
+-- ###############################################################################################################################
+-- ###############################################################################################################################
+-- EMPLOYEES table
+-- Sequence to updated ids
+DROP SEQUENCE IF EXISTS employee_card_id_seq CASCADE ;
+CREATE SEQUENCE employee_card_id_seq
+    AS INT
+    START 100
+    INCREMENT 1
+    MAXVALUE 200
+    MINVALUE 100;

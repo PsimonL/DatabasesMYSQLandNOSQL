@@ -15,8 +15,8 @@ CALL insert_vals_students('Joshamee', 'Gibbs', 566316, 359300371, 'uniNameS.com'
 
 -- ###############################################################################################################################
 -- EMPLOYEES TABLE
-INSERT INTO employees VALUES (default, 'Jake', 'Sully', 112, 'jake_sully@uniNameE.com', 938618097);
-INSERT INTO employees VALUES (default, 'Grace', 'Augustine', 242, 'grace_augustin@uniNameE.com', 359300371);
+INSERT INTO employees VALUES (default, 'Jake', 'Sully', nextval('employee_card_id_seq'), 'jake_sully@uniNameE.com', 938618097);
+INSERT INTO employees VALUES (default, 'Grace', 'Augustine', nextval('employee_card_id_seq'), 'grace_augustin@uniNameE.com', 359300371);
 
 -- ###############################################################################################################################
 -- AUTHORS table

@@ -25,12 +25,15 @@ ALTER TABLE students ADD CONSTRAINT first_name CHECK(first_name ~* '[A-Za-z]');
 ALTER TABLE students ADD CONSTRAINT last_name CHECK(last_name ~* '[A-Za-z]');
 ALTER TABLE students ADD CONSTRAINT email CHECK(email NOT LIKE '%uniNameS.com');
 ALTER TABLE students ADD CONSTRAINT phone CHECK(phone BETWEEN 111111111 AND 999999999);
+DROP INDEX IF EXISTS id_employee_idx;
+CREATE UNIQUE INDEX id_employee_idx ON students (id_student, first_name, last_name, student_card_id);
 -- #########################################################################
+
 
 
 -- #########################################################################
 -- 2
--- TABLE STUDENTS
+-- TABLE EMPLOYEES
 DROP TABLE IF EXISTS employees CASCADE;
 CREATE TABLE  IF NOT EXISTS  employees(
   id_employee int GENERATED ALWAYS AS IDENTITY,
@@ -48,7 +51,10 @@ CREATE TABLE  IF NOT EXISTS  employees(
 );
 ALTER TABLE employees ADD CONSTRAINT email CHECK(email NOT LIKE '%uniNameE.com');
 ALTER TABLE employees ADD CONSTRAINT phone CHECK(phone >= 111111111 AND phone <= 999999999);
+DROP INDEX IF EXISTS id_employee_idx;
+CREATE UNIQUE INDEX id_employee_idx ON employees (id_employee, first_name, last_name, employee_card_id, email, phone);
 -- #########################################################################
+
 
 
 -- #########################################################################
@@ -64,7 +70,10 @@ CREATE TABLE  IF NOT EXISTS  authors(
 );
 ALTER TABLE authors ADD CONSTRAINT first_name CHECK(first_name ~* '[A-Za-z]');
 ALTER TABLE authors ADD CONSTRAINT last_name CHECK(last_name ~* '[A-Za-z]');
+DROP INDEX IF EXISTS id_author_idx;
+CREATE UNIQUE INDEX id_author_idx ON authors (id_author, first_name, last_name);
 -- #########################################################################
+
 
 
 -- #########################################################################
@@ -87,8 +96,9 @@ CREATE TABLE  IF NOT EXISTS  books(
   UNIQUE (isbn)
 );
 ALTER TABLE books ADD CONSTRAINT publication_year CHECK(publication_year >= 0);
-ALTER TABLE books ALTER COLUMN genre SET DEFAULT 'No description';
+ALTER TABLE books ALTER COLUMN genre SET DEFAULT 'No description provided.';
 -- #########################################################################
+
 
 
 -- #########################################################################
@@ -111,6 +121,7 @@ CREATE TABLE  IF NOT EXISTS  rentals(
 ALTER TABLE rentals ADD COLUMN id_book int;
 ALTER TABLE rentals ADD  CONSTRAINT fk_id_book FOREIGN KEY (id_book) REFERENCES books(id_book);
 -- #########################################################################
+
 
 
 -- #########################################################################
@@ -143,6 +154,7 @@ ALTER TABLE completion_date ALTER COLUMN rental_date SET DEFAULT CURRENT_DATE;
 -- #########################################################################
 
 
+
 -- #########################################################################
 -- 7
 -- TABLE QUANTITY_BOOKS
@@ -158,6 +170,7 @@ CREATE TABLE  IF NOT EXISTS  quantity_books(
           REFERENCES books(id_book)
 );
 -- #########################################################################
+
 
 
 -- #########################################################################

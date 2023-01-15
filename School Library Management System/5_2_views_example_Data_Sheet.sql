@@ -6,6 +6,16 @@
 -- https://www.sqlshack.com/learn-sql-join-multiple-tables/
 
 
+-- https://www.postgresql.org/docs/current/rules-materializedviews.html
+-- https://linuxhint.com/use-postgresql-materialized-views/
+-- Materialized Views unable to proceed in PostgreSQL in PyCharm.
+-- DROP MATERIALIZED VIEW IF EXISTS mat_view CASCADE;
+-- CREATE OR REPLACE MATERIALIZED VIEW mat_view AS (...);
+-- REFRESH MATERIALIZED VIEW mat_view;
+-- SELECT * FROM mat_view;
+--
+-- Materialized views allows to store data physically, and thanks to that, indexes can be added to them.
+
 -- View for combining authors with their books
 DROP VIEW IF EXISTS ListingAuthorsBooks CASCADE;
 CREATE OR REPLACE VIEW ListingAuthorsBooks
@@ -21,7 +31,7 @@ SELECT * FROM ListingAuthorsBooks;
 
 
 
--- Combining info for certain rental whichc contains employee and perason who rented
+-- Combining info for certain rental which contains employee and pearson who rented
 DROP VIEW IF EXISTS RentalData CASCADE;
 CREATE OR REPLACE VIEW RentalData
 AS

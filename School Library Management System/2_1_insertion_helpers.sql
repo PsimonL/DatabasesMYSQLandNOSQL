@@ -167,7 +167,7 @@ AS $trigger$
                                             NEW.id_employee,
                                             NEW.id_book,
                                             CURRENT_DATE,
-                                            '2023-01-10');
+                                            '2023-12-31');
         RETURN NEW;
     END;
 $trigger$;

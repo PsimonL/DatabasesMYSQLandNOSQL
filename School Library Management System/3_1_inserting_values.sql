@@ -6,29 +6,38 @@
 
 -- ###############################################################################################################################
 -- STUDENTS TABLE
+BEGIN TRANSACTION;
 CALL insert_vals_students('Jack', 'Sparrow',155533, 321842476, 'uniNameS.com');
 CALL insert_vals_students('Elizabeth', 'Swann', 347033, 229868299, 'uniNameS.com');
 CALL insert_vals_students('Will', 'Turner', 437652, 623613519, 'uniNameS.com');
 CALL insert_vals_students('Hector', 'Barbossa', 281673, 562652275, 'yahoo.com');
 CALL insert_vals_students('James', 'Norrington', 404169, 938618097, 'uniNameS.com');
 CALL insert_vals_students('Joshamee', 'Gibbs', 566316, 359300371, 'uniNameS.com');
-
+COMMIT;
+SELECT * FROM students;
 -- ###############################################################################################################################
 -- EMPLOYEES TABLE
+BEGIN TRANSACTION;
 INSERT INTO employees VALUES (default, 'Jake', 'Sully', nextval('employee_card_id_seq'), 'jake_sully@uniNameE.com', 938618097);
 INSERT INTO employees VALUES (default, 'Grace', 'Augustine', nextval('employee_card_id_seq'), 'grace_augustin@uniNameE.com', 359300371);
+COMMIT;
+SELECT * FROM employees;
 
 -- ###############################################################################################################################
 -- AUTHORS table
+BEGIN TRANSACTION;
 INSERT INTO authors VALUES (default, 'Fyodor', 'Dostoevsky');
 INSERT INTO authors VALUES (default, 'William', 'Shakespeare');
 INSERT INTO authors VALUES (default, 'Stephen', 'King');
 INSERT INTO authors VALUES (default, 'Albert', 'Camus');
 INSERT INTO authors VALUES (default, 'Oscar', 'Wilde');
 INSERT INTO authors VALUES (default, 'Nicolaus', 'Copernicus');
+COMMIT;
+SELECT * FROM authors;
 
 -- ###############################################################################################################################
 -- BOOKS table
+BEGIN TRANSACTION;
 CALL insert_vals_books('Crime and Punishment', 'Dostoevsky', '111-222-333-444', false,
     1866, 'novel, psychological fiction, crime fiction, philosophical fiction');
 CALL insert_vals_books('Hamlet', 'Shakespeare', '555-666-777-888', false,
@@ -47,12 +56,17 @@ CALL insert_vals_books ('A Gentle Creature', 'Dostoevsky', '555-22-444-777', fal
     1876, 'short story, psychological fiction, philosophical fiction');
 CALL insert_vals_books ('Macbeth', 'Shakespeare', '222-000-999-888', false,
     1623, 'tragedy');
+COMMIT;
+SELECT * FROM books;
 
 -- ###############################################################################################################################
 -- RENTALS table
+BEGIN TRANSACTION;
 CALL insert_vals_rentals('Jack', 'Jake','Sparrow', 'Sully', 9);
 CALL insert_vals_rentals('Joshamee', 'Grace','Gibbs', 'Augustine', 3);
 CALL insert_vals_rentals('James', 'Jake','Norrington', 'Sully', 6);
+COMMIT;
+SELECT * FROM rentals;
 
 -- ###############################################################################################################################
 -- COMPLETION_DATE table
@@ -61,20 +75,24 @@ CALL insert_vals_rentals('James', 'Jake','Norrington', 'Sully', 6);
 -- ###############################################################################################################################
 -- QUANTITY_BOOKS table
 -- 1st name than 2nd name input
+BEGIN TRANSACTION;
 CALL insert_vals_quantity(30, 'Fyodor Dostoevsky');
 CALL insert_vals_quantity(10, 'William Shakespeare');
 CALL insert_vals_quantity(60, 'Stephen King');
 CALL insert_vals_quantity(40, 'Albert Camus');
 CALL insert_vals_quantity(70, 'Oscar Wilde');
 CALL insert_vals_quantity(100, 'Nicolaus Copernicus');
+COMMIT;
+SELECT * FROM quantity_books;
 
 -- ###############################################################################################################################
 -- SUPPLY_HISTORY table
-SELECT * FROM quantity_books ORDER BY id_quantity;
-SELECT * FROM supply_history;
+BEGIN TRANSACTION;
+-- SELECT * FROM quantity_books ORDER BY id_quantity;
+-- SELECT * FROM supply_history;
 CALL insert_vals_supply(5, null, 200);
 CALL insert_vals_supply(6, null, 200);
-SELECT * FROM supply_history;
-SELECT * FROM quantity_books ORDER BY id_quantity;
-
-
+-- SELECT * FROM supply_history;
+-- SELECT * FROM quantity_books ORDER BY id_quantity;
+COMMIT;
+SELECT * FROM supply_history

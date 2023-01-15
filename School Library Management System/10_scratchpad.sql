@@ -373,3 +373,19 @@ SELECT * FROM product;
 
 ----------------------------------------------------------------------------------
 SELECT '2022-1-10' - CURRENT_DATE;
+----------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS example CASCADE;
+CREATE TABLE  IF NOT EXISTS  example(
+    id INT,
+    num INT
+);
+
+BEGIN TRANSACTION;
+INSERT INTO example VALUES (1, 111);
+INSERT INTO example VALUES (2, 222);
+INSERT INTO example VALUES (3, 333);
+COMMIT;
+
+ROLLBACK;
+
+SELECT * FROM example;

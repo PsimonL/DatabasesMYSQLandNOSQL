@@ -43,3 +43,26 @@ $cursor_procedure_e_i$;
 CALL cursor_employees_table(1);
 
 
+
+SELECT * FROM rentals;
+-- Deleting returned rentals from RENTALS table
+CREATE OR REPLACE PROCEDURE cursor_delete_rental(id_s INT, id_b INT)
+LANGUAGE plpgsql
+AS $cursor_procedure_d_r$
+    DECLARE
+        my_cursor REFCURSOR;
+        row rentals%rowtype;
+    BEGIN
+        OPEN my_cursor FOR SELECT * FROM rentals AS r WHERE r.id_student = id_s AND r.id_book = id_b;
+        LOOP
+            FETCH NEXT FROM my_cursor into row;
+            EXIT WHEN NOT FOUND;
+                IF row.id_student = id_s AND row.id_book = id_b THEN
+                    
+                END IF;
+        END LOOP;
+        CLOSE my_cursor;
+    END;
+$cursor_procedure_d_r$;
+CALL cursor_delete_rental(5, 3);
+SELECT * FROM rentals;

@@ -49,12 +49,21 @@ SELECT * FROM RentalData;
 DROP VIEW IF EXISTS ListingBooksForAuthors CASCADE;
 CREATE OR REPLACE VIEW ListingBooksForAuthors
 AS
-    SELECT a.last_name, COUNT(b.id_author) AS count_of_books
-        FROM authors AS a
-        LEFT JOIN books AS b ON b.id_author = a.id_author
-        GROUP BY a.last_name;
+   SELECT (Select concat(a.last_name, a.first_name) From authors As a Where a.id_author = b.id_author),
+          COUNT(q.id_book) AS how_many_books
+   FROM quantity_books AS q
+   LEFT JOIN books AS b
+   ON (b.id_author = q.id_book)
+   GROUP BY b.id_author;
 SELECT * FROM ListingBooksForAuthors;
 
+
+
+-- Certain quantity of every position for certain author
+SELECT ;
+SELECT * FROM authors;
+SELECT * FROM quantity_books;
+SELECT * FROM books;
 
 
 -- View for combining rentals with students
@@ -82,12 +91,3 @@ AS
         LEFT JOIN authors AS a ON a.id_author = b.id_author
         ORDER BY id_book ASC;
 SELECT * FROM BookInfo;
-
-
-
--- Certain quantity of every position for certain author
-DROP VIEW IF EXISTS QuantityForCertainAuthor CASCADE;
-CREATE OR REPLACE VIEW QuantityForCertainAuthor
-AS
-   SELECT ;
-SELECT * FROM QuantityForCertainAuthor;

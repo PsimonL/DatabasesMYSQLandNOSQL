@@ -136,6 +136,7 @@ CREATE TABLE  IF NOT EXISTS  completion_date(
   id_book int NOT NULL,
   rental_date date NOT NULL,
   return_date date NOT NULL,
+  status_regurgitation bool NOT NULL ,
 
   PRIMARY KEY (id_completion),
   CONSTRAINT fk_id_rental
@@ -149,6 +150,7 @@ CREATE TABLE  IF NOT EXISTS  completion_date(
            REFERENCES books(id_book)
 
 );
+ALTER TABLE completion_date ALTER COLUMN status_regurgitation SET DEFAULT false;
 ALTER TABLE completion_date ADD CONSTRAINT return_date CHECK (return_date >= CURRENT_DATE);
 ALTER TABLE completion_date ALTER COLUMN rental_date SET DEFAULT CURRENT_DATE;
 -- #########################################################################

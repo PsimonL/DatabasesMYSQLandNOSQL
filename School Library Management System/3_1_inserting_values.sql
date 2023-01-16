@@ -14,6 +14,7 @@ CALL insert_vals_students('Hector', 'Barbossa', 281673, 562652275, 'yahoo.com');
 CALL insert_vals_students('James', 'Norrington', 404169, 938618097, 'uniNameS.com');
 CALL insert_vals_students('Joshamee', 'Gibbs', 566316, 359300371, 'uniNameS.com');
 COMMIT;
+-- ROLLBACK;
 
 -- ###############################################################################################################################
 -- EMPLOYEES TABLE
@@ -21,6 +22,7 @@ BEGIN TRANSACTION;
 INSERT INTO employees VALUES (default, 'Jake', 'Sully', nextval('employee_card_id_seq'), 'jake_sully@uniNameE.com', 938618097);
 INSERT INTO employees VALUES (default, 'Grace', 'Augustine', nextval('employee_card_id_seq'), 'grace_augustin@uniNameE.com', 359300371);
 COMMIT;
+-- ROLLBACK;
 
 -- ###############################################################################################################################
 -- AUTHORS table
@@ -31,7 +33,9 @@ INSERT INTO authors VALUES (default, 'Stephen', 'King');
 INSERT INTO authors VALUES (default, 'Albert', 'Camus');
 INSERT INTO authors VALUES (default, 'Oscar', 'Wilde');
 INSERT INTO authors VALUES (default, 'Nicolaus', 'Copernicus');
+INSERT INTO authors VALUES (default, 'Madeline', 'Miller');
 COMMIT;
+-- ROLLBACK;
 
 -- ###############################################################################################################################
 -- BOOKS table
@@ -54,7 +58,10 @@ CALL insert_vals_books ('A Gentle Creature', 'Dostoevsky', '555-22-444-777', fal
     1876, 'short story, psychological fiction, philosophical fiction');
 CALL insert_vals_books ('Macbeth', 'Shakespeare', '222-000-999-888', false,
     1623, 'tragedy');
+CALL insert_vals_books ('Circe', 'Miller', '444-111-333-888', false,
+    2018, 'Fantasy Novel');
 COMMIT;
+-- ROLLBACK;
 
 -- ###############################################################################################################################
 -- RENTALS table
@@ -63,6 +70,7 @@ CALL insert_vals_rentals('Jack', 'Jake','Sparrow', 'Sully', 9);
 CALL insert_vals_rentals('Joshamee', 'Grace','Gibbs', 'Augustine', 3);
 CALL insert_vals_rentals('James', 'Jake','Norrington', 'Sully', 6);
 COMMIT;
+-- ROLLBACK;
 
 -- ###############################################################################################################################
 -- COMPLETION_DATE table
@@ -79,6 +87,7 @@ CALL insert_vals_quantity(40, 'Albert Camus');
 CALL insert_vals_quantity(70, 'Oscar Wilde');
 CALL insert_vals_quantity(100, 'Nicolaus Copernicus');
 COMMIT;
+-- ROLLBACK;
 
 -- ###############################################################################################################################
 -- SUPPLY_HISTORY table
@@ -90,3 +99,4 @@ CALL insert_vals_supply(6, null, 200);
 -- SELECT * FROM supply_history;
 -- SELECT * FROM quantity_books ORDER BY id_quantity;
 COMMIT;
+-- ROLLBACK;

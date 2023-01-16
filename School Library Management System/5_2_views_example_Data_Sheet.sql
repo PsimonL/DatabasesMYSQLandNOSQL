@@ -90,6 +90,6 @@ SELECT * FROM BookInfo;
 -- Certain quantity of every position for certain author
 -- https://stackoverflow.com/questions/7994865/how-to-get-the-sum-of-foreign-key-table-as-a-value-in-the-primary-table-row-in-a
 -- SELECT ;
--- SELECT * FROM authors;
--- SELECT * FROM quantity_books;
--- SELECT * FROM books;
+SELECT * FROM authors;
+SELECT * FROM quantity_books;
+SELECT * FROM books;

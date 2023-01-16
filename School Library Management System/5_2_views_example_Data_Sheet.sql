@@ -60,10 +60,10 @@ SELECT * FROM ListingBooksForAuthors;
 
 
 -- Certain quantity of every position for certain author
-SELECT ;
-SELECT * FROM authors;
-SELECT * FROM quantity_books;
-SELECT * FROM books;
+-- SELECT ;
+-- SELECT * FROM authors;
+-- SELECT * FROM quantity_books;
+-- SELECT * FROM books;
 
 
 -- View for combining rentals with students

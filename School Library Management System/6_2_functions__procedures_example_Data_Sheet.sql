@@ -45,18 +45,18 @@ SELECT * FROM MinMaxQuantity('min');
 
 ------------------------------------------------------------------------------------------------------
 -- Update quantity_books after supply
-DROP PROCEDURE IF EXISTS update_quantity_books_after_supply();
-CREATE OR REPLACE PROCEDURE update_quantity_books_after_supply()
-LANGUAGE plpgsql
-AS $procedure_for_updating_quantity$
-    BEGIN
-        UPDATE quantity_books SET quantity = quantity_books.quantity + supply_history.quantity
-            FROM supply_history
-            WHERE quantity_books.id_book = supply_history.id_book;
-    END;
-$procedure_for_updating_quantity$;
-CALL update_quantity_books_after_supply();
-SELECT * FROM quantity_books;
+-- DROP PROCEDURE IF EXISTS update_quantity_books_after_supply();
+-- CREATE OR REPLACE PROCEDURE update_quantity_books_after_supply()
+-- LANGUAGE plpgsql
+-- AS $procedure_for_updating_quantity$
+--     BEGIN
+--         UPDATE quantity_books SET quantity = quantity_books.quantity + supply_history.quantity
+--             FROM supply_history
+--             WHERE quantity_books.id_author = supply_history.id_book;
+--     END;
+-- $procedure_for_updating_quantity$;
+-- CALL update_quantity_books_after_supply();
+-- SELECT * FROM quantity_books;
 ------------------------------------------------------------------------------------------------------
 
 

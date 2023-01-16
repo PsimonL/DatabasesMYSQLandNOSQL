@@ -196,7 +196,7 @@ AS $trigger$
     BEGIN
         UPDATE quantity_books AS q
             SET quantity = q.quantity - coalesce(OLD.quantity, 0) + coalesce(NEW.quantity, 0)
-            WHERE q.id_book = coalesce(NEW.id_book,OLD.id_book);
+            WHERE q.id_author = coalesce(NEW.id_book,OLD.id_book);
         RETURN null; -- It's an after trigger, so this value is ignored.
     END;
 $trigger$;

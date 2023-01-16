@@ -161,13 +161,13 @@ ALTER TABLE completion_date ALTER COLUMN rental_date SET DEFAULT CURRENT_DATE;
 DROP TABLE IF EXISTS quantity_books CASCADE;
 CREATE TABLE  IF NOT EXISTS  quantity_books(
   id_quantity int GENERATED ALWAYS AS IDENTITY,
-  id_book int NOT NULL,
+  id_author int NOT NULL,
   quantity int NOT NULL,
 
   PRIMARY KEY (id_quantity),
-  CONSTRAINT fk_id_book
-      FOREIGN KEY (id_book)
-          REFERENCES books(id_book)
+  CONSTRAINT fk_id_author
+      FOREIGN KEY (id_author)
+          REFERENCES authors(id_author)
 );
 -- #########################################################################
 

@@ -50,10 +50,10 @@ DROP VIEW IF EXISTS ListingBooksForAuthors CASCADE;
 CREATE OR REPLACE VIEW ListingBooksForAuthors
 AS
    SELECT (Select concat(a.last_name, a.first_name) From authors As a Where a.id_author = b.id_author),
-          COUNT(q.id_book) AS how_many_books
+          COUNT(q.id_author) AS how_many_books
    FROM quantity_books AS q
    LEFT JOIN books AS b
-   ON (b.id_author = q.id_book)
+   ON (b.id_author = q.id_author)
    GROUP BY b.id_author;
 SELECT * FROM ListingBooksForAuthors;
 
@@ -87,7 +87,7 @@ AS
            (Select concat(a.first_name, a.last_name) AS author),
             q.quantity
         FROM quantity_books AS q
-        LEFT JOIN books AS b ON b.id_book = q.id_book
+        LEFT JOIN books AS b ON b.id_book = q.id_author
         LEFT JOIN authors AS a ON a.id_author = b.id_author
         ORDER BY id_book ASC;
 SELECT * FROM BookInfo;

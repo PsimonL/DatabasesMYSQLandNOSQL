@@ -34,7 +34,7 @@ AS $cursor_procedure_e_i$
     BEGIN
         OPEN my_cursor FOR SELECT * FROM employees WHERE employee_card_id = x;
         FETCH NEXT FROM my_cursor INTO row;
-        RAISE NOTICE 'Employee for card id %. Employee: %' , x, row.first_name, row.last_name;
+        RAISE NOTICE 'Employee for card id %. Employee: % %' , x, row.first_name, row.last_name;
         RAISE NOTICE 'Phone %', row.phone;
         RAISE NOTICE ' Email address: %', row.email;
         CLOSE my_cursor;

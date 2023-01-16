@@ -59,13 +59,6 @@ SELECT * FROM ListingBooksForAuthors;
 
 
 
--- Certain quantity of every position for certain author
--- SELECT ;
--- SELECT * FROM authors;
--- SELECT * FROM quantity_books;
--- SELECT * FROM books;
-
-
 -- View for combining rentals with students
 DROP VIEW IF EXISTS ListingRentalsWithStudents CASCADE;
 CREATE OR REPLACE VIEW ListingRentalsWithStudents
@@ -91,3 +84,12 @@ AS
         LEFT JOIN authors AS a ON a.id_author = b.id_author
         ORDER BY id_book ASC;
 SELECT * FROM BookInfo;
+
+
+
+-- Certain quantity of every position for certain author
+-- https://stackoverflow.com/questions/7994865/how-to-get-the-sum-of-foreign-key-table-as-a-value-in-the-primary-table-row-in-a
+-- SELECT ;
+-- SELECT * FROM authors;
+-- SELECT * FROM quantity_books;
+-- SELECT * FROM books;

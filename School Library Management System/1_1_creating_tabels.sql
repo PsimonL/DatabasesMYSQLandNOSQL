@@ -169,6 +169,7 @@ CREATE TABLE  IF NOT EXISTS  quantity_books(
       FOREIGN KEY (id_author)
           REFERENCES authors(id_author)
 );
+-- should be done little change, id_author for id_book
 -- #########################################################################
 
 

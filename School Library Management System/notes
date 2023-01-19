@@ -1,12 +1,14 @@
 ========================================================================================================================
 Roles:
 https://www.geeksforgeeks.org/sql-creating-roles/?ref=lbp
+
 ========================================================================================================================
 TO DO:
 1. Rewrite quantity_books table - change id_author (FK) for id_book (FK)
 2. indexes, cursors, transactions, generators
 https://www.geeksforgeeks.org/sql-indexes/
 DONE
+
 ========================================================================================================================
 TUTORIALS:
 https://www.postgresqltutorial.com/postgresql-tutorial/postgresql-check-constraint/
